@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Container(
                   margin: const EdgeInsets.fromLTRB(0, 140, 0, 180),
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 19, 19, 19),
+                    color: const Color.fromARGB(255, 18, 18, 18),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Center(
@@ -41,18 +41,20 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const SizedBox(
-                          height: 60,
+                          height: 40,
                         ),
-                        // Logo berbentuk lingkaran
+                        Image.asset(
+                          'assets/img/logo_app.png',
+                          width: 100,
+                        ),
                         const Text(
-                          "Build\nYo PC",
+                          "Build Your PC",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Color.fromARGB(255, 226, 226, 226),
-                              fontFamily: 'Poppins-Bold',
-                              fontSize: 30),
+                              fontFamily: 'Poppins-regular',
+                              fontSize: 17),
                         ),
-                        Icon(Icons.monitor_rounded),
 
                         const SizedBox(height: 40),
                         // TextField email dengan desain kapsul dan ikon email
@@ -102,6 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                               iconColor: const Color.fromARGB(26, 168, 73, 73),
                               labelText: 'Password',
                               labelStyle: const TextStyle(
+                                  fontFamily: "Poppins-regular",
                                   color: Color.fromARGB(255, 218, 218, 218)),
                               prefixIcon: const Icon(Icons.lock,
                                   color: Color.fromARGB(255, 194, 194, 194)),
@@ -157,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                               'Lupa Password?',
                               style: TextStyle(
                                   fontFamily: 'Poppins-Regular',
-                                  color: Color.fromARGB(255, 0, 0, 0)),
+                                  color: Color.fromARGB(255, 233, 233, 233)),
                             ),
                           ),
                         ),
@@ -171,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
                             padding: WidgetStateProperty.all(
                                 const EdgeInsets.fromLTRB(0, 0, 0, 0)),
                             backgroundColor: WidgetStateProperty.all(
-                                const Color.fromARGB(255, 241, 68, 68)),
+                                const Color.fromARGB(255, 68, 129, 241)),
                             elevation: WidgetStateProperty.all(2),
                           ),
                           onPressed: () async {
@@ -181,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: const Text(
                             'Login',
                             style: TextStyle(
-                                fontFamily: 'Poppins-Regular',
+                                fontFamily: 'Poppins-bold',
                                 color: Color.fromARGB(255, 243, 242, 242)),
                           ),
                         ),
@@ -198,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                             'Sign Up',
                             style: TextStyle(
                                 fontFamily: 'Poppins-regular',
-                                color: Color.fromARGB(255, 0, 0, 0)),
+                                color: Color.fromARGB(255, 245, 245, 245)),
                           ),
                         ),
 

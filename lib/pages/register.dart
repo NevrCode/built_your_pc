@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../main.dart';
+import '../services/auth_provider.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -23,7 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _namaController = TextEditingController();
-  // final AuthProvider _auth = AuthProvider();
+  final AuthProvider _auth = AuthProvider();
   final _picker = ImagePicker();
   File? _userProfile;
 
@@ -39,26 +40,24 @@ class _RegisterPageState extends State<RegisterPage> {
     final pass = _passwordController.text;
     final nama = _namaController.text;
     log(_userProfile.toString());
-    // String fullPath = await supabase.storage
-    //     .from('VehicleImage/userprofile')
-    //     .upload(
-    //       basename(_userProfile!.path),
-    //       _userProfile!,
-    //       fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
-    //     );
-    // final url = fullPath.replaceFirst("VehicleImage/", "");
-    // final user = await _auth.signUpWithPass(email, pass, nama, url);
-    // if (user != null) {
-    //   return user;
-    // } else {
-    //   return null;
-    // }
+    String fullPath = await supabase.storage.from('profile').upload(
+          basename(_userProfile!.path),
+          _userProfile!,
+          fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
+        );
+    final url = fullPath.replaceFirst("profile", "");
+    final user = await _auth.signUpWithPass(email, pass, nama, url);
+    if (user != null) {
+      return user;
+    } else {
+      return null;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 19, 19, 19),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
@@ -67,7 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
               margin: const EdgeInsets.fromLTRB(0, 50, 0, 70),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: const Color.fromARGB(255, 255, 255, 255),
+                color: const Color.fromARGB(255, 19, 19, 19),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -76,7 +75,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     height: 30,
                   ),
                   CircleAvatar(
-                    backgroundColor: const Color.fromARGB(255, 226, 226, 226),
+                    backgroundColor: const Color.fromARGB(255, 58, 58, 58),
                     radius: 50,
                     backgroundImage:
                         _userProfile != null ? FileImage(_userProfile!) : null,
@@ -84,7 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ? const Icon(
                             Icons.picture_in_picture,
                             size: 50,
-                            color: Colors.black,
+                            color: Color.fromARGB(255, 207, 207, 207),
                           )
                         : null, // Tampilkan icon person jika belum ada foto
                   ),
@@ -94,7 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     onPressed: _pickProductPicture,
                     style: ElevatedButton.styleFrom(
                       elevation: 0.2,
-                      backgroundColor: const Color.fromARGB(255, 255, 237, 77),
+                      backgroundColor: const Color.fromARGB(255, 54, 54, 54),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
@@ -102,7 +101,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: const Text(
                       'Upload Foto',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Color.fromARGB(255, 231, 231, 231),
                       ),
                     ),
                   ),
