@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:built_your_pc/pages/register.dart';
+import 'package:built_your_pc/util/app_color.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,21 +20,20 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          _isLoading ? Colors.white : const Color.fromARGB(255, 255, 255, 250),
+      backgroundColor: _isLoading ? bg : bg,
       body: _isLoading
           ? const Center(
               child: CircularProgressIndicator(
-                color: Color.fromARGB(255, 255, 238, 0),
+                color: Color.fromARGB(255, 228, 228, 228),
               ),
             )
           : SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Container(
-                  margin: const EdgeInsets.fromLTRB(0, 180, 0, 180),
+                  margin: const EdgeInsets.fromLTRB(0, 140, 0, 180),
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 255, 255, 255),
+                    color: const Color.fromARGB(255, 19, 19, 19),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Center(
@@ -45,10 +45,14 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         // Logo berbentuk lingkaran
                         const Text(
-                          "HeavyHub",
+                          "Build\nYo PC",
+                          textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontFamily: 'Poppins-Bold', fontSize: 30),
+                              color: Color.fromARGB(255, 226, 226, 226),
+                              fontFamily: 'Poppins-Bold',
+                              fontSize: 30),
                         ),
+                        Icon(Icons.monitor_rounded),
 
                         const SizedBox(height: 40),
                         // TextField email dengan desain kapsul dan ikon email
@@ -59,31 +63,30 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: InputDecoration(
                               labelText: 'E-mail',
                               labelStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 75, 75, 75)),
+                                  color: Color.fromARGB(255, 226, 226, 226)),
                               prefixIcon: const Icon(
                                 Icons.email,
-                                color: Color.fromARGB(255, 17, 17, 17),
+                                color: Color.fromARGB(255, 194, 194, 194),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    const BorderSide(color: Colors.white),
+                                borderSide: const BorderSide(
+                                    color: Color.fromARGB(255, 70, 70, 70)),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
-                                    color: Color.fromARGB(255, 255, 230, 0)),
+                                    color: Color.fromARGB(255, 117, 117, 117)),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               border: OutlineInputBorder(
-                                borderSide:
-                                    const BorderSide(color: Colors.white),
+                                borderSide: const BorderSide(
+                                    color: Color.fromARGB(255, 78, 78, 78)),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               contentPadding:
                                   const EdgeInsets.symmetric(horizontal: 20),
                               filled: true,
-                              fillColor:
-                                  const Color.fromARGB(255, 248, 248, 248),
+                              fillColor: const Color.fromARGB(255, 63, 63, 63),
                             ),
                           ),
                         ),
@@ -99,15 +102,15 @@ class _LoginPageState extends State<LoginPage> {
                               iconColor: const Color.fromARGB(26, 168, 73, 73),
                               labelText: 'Password',
                               labelStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 75, 75, 75)),
+                                  color: Color.fromARGB(255, 218, 218, 218)),
                               prefixIcon: const Icon(Icons.lock,
-                                  color: Color.fromARGB(255, 17, 17, 17)),
+                                  color: Color.fromARGB(255, 194, 194, 194)),
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _obscureText
                                       ? Icons.visibility_off
                                       : Icons.visibility,
-                                  color: const Color.fromARGB(255, 15, 15, 15),
+                                  color: Color.fromARGB(255, 194, 194, 194),
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -116,13 +119,13 @@ class _LoginPageState extends State<LoginPage> {
                                 },
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    const BorderSide(color: Colors.white),
+                                borderSide: const BorderSide(
+                                    color: Color.fromARGB(255, 63, 63, 63)),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 255, 230, 0),
+                                  color: Color.fromARGB(255, 105, 105, 104),
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -134,8 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                               contentPadding:
                                   const EdgeInsets.symmetric(horizontal: 20),
                               filled: true,
-                              fillColor:
-                                  const Color.fromARGB(255, 248, 248, 248),
+                              fillColor: Color.fromARGB(255, 63, 63, 63),
                             ),
                           ),
                         ),
@@ -169,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                             padding: WidgetStateProperty.all(
                                 const EdgeInsets.fromLTRB(0, 0, 0, 0)),
                             backgroundColor: WidgetStateProperty.all(
-                                const Color.fromARGB(255, 255, 238, 0)),
+                                const Color.fromARGB(255, 241, 68, 68)),
                             elevation: WidgetStateProperty.all(2),
                           ),
                           onPressed: () async {
@@ -180,7 +182,7 @@ class _LoginPageState extends State<LoginPage> {
                             'Login',
                             style: TextStyle(
                                 fontFamily: 'Poppins-Regular',
-                                color: Color.fromARGB(255, 20, 20, 20)),
+                                color: Color.fromARGB(255, 243, 242, 242)),
                           ),
                         ),
                         const SizedBox(width: 16),
