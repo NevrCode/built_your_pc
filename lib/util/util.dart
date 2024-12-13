@@ -1,4 +1,42 @@
+import 'package:built_your_pc/util/app_color.dart';
 import 'package:flutter/material.dart';
+
+class DetailDescription extends StatelessWidget {
+  final EdgeInsetsGeometry? padding;
+  final String attribute;
+  final String value;
+  const DetailDescription({
+    super.key,
+    required this.attribute,
+    required this.value,
+    this.padding,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: padding ?? const EdgeInsets.all(8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            child: CostumText(
+              data: attribute,
+              color: const Color.fromARGB(255, 0, 0, 0),
+            ),
+          ),
+          Flexible(
+            child: CostumText(
+              data: value,
+              color: const Color.fromARGB(255, 0, 0, 0),
+              align: TextAlign.end,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class CostumText extends StatelessWidget {
   final String data;
@@ -9,7 +47,7 @@ class CostumText extends StatelessWidget {
   const CostumText({
     super.key,
     required this.data,
-    this.color = Colors.black,
+    this.color = const Color.fromARGB(255, 36, 36, 36),
     this.size = 16,
     this.align,
   });
@@ -19,7 +57,7 @@ class CostumText extends StatelessWidget {
     return Text(
       data,
       style: TextStyle(
-        fontFamily: "Gotham-regular",
+        fontFamily: "Poppins-regular",
         fontSize: size,
         color: color,
         overflow: TextOverflow.clip,
@@ -95,7 +133,7 @@ class CostumTextField extends StatelessWidget {
       padding: padding,
       child: SizedBox(
         child: TextField(
-          style: const TextStyle(fontFamily: "Gotham-regular"),
+          style: const TextStyle(fontFamily: "Poppins-regular"),
           controller: controller,
           keyboardType: inputType,
           decoration: InputDecoration(

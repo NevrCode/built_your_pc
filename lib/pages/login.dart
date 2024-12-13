@@ -1,8 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:built_your_pc/pages/register.dart';
+import 'package:built_your_pc/pages/user/index.dart';
+import 'package:built_your_pc/services/auth_provider.dart';
+import 'package:built_your_pc/services/pref.dart';
 import 'package:built_your_pc/util/app_color.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: _isLoading ? bg : bg,
       body: _isLoading
@@ -173,13 +178,59 @@ class _LoginPageState extends State<LoginPage> {
                                 WidgetStateProperty.all(const Size(240, 42)),
                             padding: WidgetStateProperty.all(
                                 const EdgeInsets.fromLTRB(0, 0, 0, 0)),
-                            backgroundColor: WidgetStateProperty.all(
-                                const Color.fromARGB(255, 68, 129, 241)),
+                            backgroundColor:
+                                WidgetStateProperty.all(buttonColor),
                             elevation: WidgetStateProperty.all(2),
                           ),
                           onPressed: () async {
                             String email = _emailController.text;
                             String password = _passwordController.text;
+                            setState(() {
+                              _isLoading = true;
+                            });
+                            try {
+                              await auth.signInWithPass(email, password);
+
+                              if (auth.user != null && mounted) {
+                                // Provider.of<VehicleProvider>(context,
+                                //         listen: false)
+                                //     .fetchData();
+
+                                // Provider.of<LocationProvider>(context,
+                                //         listen: false)
+                                //     .fetchData();
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    duration: const Duration(seconds: 1),
+                                    backgroundColor: const Color.fromARGB(
+                                        255, 242, 255, 242),
+                                    content: Text(
+                                      'Hi, ${auth.user!.userMetadata?['displayName']}. Selamat Berbelanja',
+                                      style: const TextStyle(
+                                          fontFamily: 'Poppins-regular',
+                                          fontSize: 14,
+                                          color:
+                                              Color.fromARGB(255, 56, 56, 56)),
+                                    ),
+                                  ),
+                                );
+                                PrefService().saveSession(
+                                  auth.session!.accessToken,
+                                  auth.session!.refreshToken!,
+                                  auth.user!.id,
+                                  auth.user!.email!,
+                                );
+
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const IndexPage()));
+                              }
+                            } catch (e) {
+                              Text(e.toString());
+                            }
                           },
                           child: const Text(
                             'Login',
