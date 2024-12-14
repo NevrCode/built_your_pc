@@ -1,14 +1,19 @@
 import 'dart:io';
+import 'dart:math';
 
+import 'package:built_your_pc/main.dart';
 import 'package:built_your_pc/services/component_provider.dart';
 import 'package:built_your_pc/util/app_color.dart';
 import 'package:built_your_pc/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AddItemPage extends StatefulWidget {
-  const AddItemPage({super.key});
+  final String type;
+  const AddItemPage({super.key, required this.type});
 
   @override
   State<AddItemPage> createState() => _AddItemPageState();
@@ -21,11 +26,15 @@ class _AddItemPageState extends State<AddItemPage> {
   final _name = TextEditingController();
   final _desc = TextEditingController();
   final _price = TextEditingController();
-  final _tdp = TextEditingController();
+
+// Ingetin Urutannya -------
   final _graphic = TextEditingController();
+  final _count = TextEditingController();
   final _clock = TextEditingController();
   final _boost = TextEditingController();
-  final _count = TextEditingController();
+  final _tdp = TextEditingController();
+
+// Ingetin Urutannya -------
   final _stok = TextEditingController();
   Future<void> _pickProductPicture() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -46,6 +55,11 @@ class _AddItemPageState extends State<AddItemPage> {
     _stok.clear();
   }
 
+  String generateSKU() {
+    final random = Random();
+    return "${widget.type.toUpperCase()}-${_name.text.substring(0, 3)}-${(1000 + random.nextInt(90000)).toString()}";
+  }
+
   Future<void> _addComponents(context) async {
     final comps = Provider.of<ComponentProvider>(context, listen: false);
     final name = _name.text;
@@ -57,11 +71,32 @@ class _AddItemPageState extends State<AddItemPage> {
     final count = _count.text;
     final decs = _desc.text;
     final stok = _stok.text;
+    String fullPath = await supabase.storage.from('profile/product').upload(
+          "${DateTime.now().millisecondsSinceEpoch}.jpg",
+          _file!,
+          fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
+        );
+    print(fullPath);
+    final url = fullPath.replaceFirst("profile", "");
     if (_file != null) {
+      final id = generateSKU();
+      print(id);
       await comps.addComponentModel(
-        {},
-        "",
-        "id",
+        {
+          'id': id,
+          'name': name,
+          'price': price,
+          'desc': decs,
+          'pic_url': url,
+          'clock': clock,
+          'count': count,
+          'boost': boost,
+          'tdp': tdp,
+          'graphics': graphics,
+          'stock': stok,
+        },
+        widget.type,
+        generateSKU(),
       );
     } else {
       _showSnackBar(context, "Perlu Gambar!");
@@ -75,7 +110,7 @@ class _AddItemPageState extends State<AddItemPage> {
       appBar: AppBar(
         backgroundColor: bg,
         title: CostumText(
-          data: "Tambah CPU",
+          data: "Tambah ${widget.type.toUpperCase()}",
           size: 14,
         ),
       ),
@@ -132,9 +167,11 @@ class _AddItemPageState extends State<AddItemPage> {
                 ),
               ),
               CostumTextField(
-                  controller: _name, radius: 7, labelText: "nama cpu"),
+                  controller: _name,
+                  radius: 7,
+                  labelText: "nama ${widget.type}"),
               CostumTextField(
-                  controller: _name, radius: 7, labelText: "Graphics"),
+                  controller: _graphic, radius: 7, labelText: "Graphics"),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -162,32 +199,40 @@ class _AddItemPageState extends State<AddItemPage> {
                   Flexible(
                     flex: 6,
                     child: CostumTextField(
-                        controller: _name, radius: 7, labelText: "tdp"),
+                        controller: _tdp, radius: 7, labelText: "tdp"),
                   ),
                   Flexible(
                     flex: 5,
                     child: CostumTextField(
-                        controller: _name, radius: 7, labelText: "Stok"),
+                        controller: _stok, radius: 7, labelText: "Stok"),
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 9.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    MyButton(
-                        elevation: 1,
-                        color: green,
-                        width: 100,
-                        height: 40,
-                        onTap: () => _addComponents(context),
-                        child: CostumText(
-                          data: "Submit",
-                          color: Colors.white,
-                        )),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    flex: 6,
+                    child: CostumTextField(
+                        controller: _price, radius: 7, labelText: "price"),
+                  ),
+                  Flexible(
+                    flex: 5,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: MyButton(
+                          elevation: 1,
+                          color: green,
+                          width: 120,
+                          height: 40,
+                          onTap: () => _addComponents(context),
+                          child: CostumText(
+                            data: "Submit",
+                            color: Colors.white,
+                          )),
+                    ),
+                  ),
+                ],
               )
             ],
           ),

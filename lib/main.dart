@@ -4,6 +4,7 @@ import 'package:built_your_pc/pages/login.dart';
 import 'package:built_your_pc/pages/register.dart';
 import 'package:built_your_pc/pages/user/index.dart';
 import 'package:built_your_pc/services/auth_provider.dart';
+import 'package:built_your_pc/services/component_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -19,6 +20,7 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => ComponentProvider()),
       ],
       child: const MyApp(),
     ),

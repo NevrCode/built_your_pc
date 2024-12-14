@@ -15,12 +15,15 @@ class ComponentProvider with ChangeNotifier {
     await supabase.from(type).insert({
       'id': id,
       'name': map['name'],
+      'price': map['price'],
       'description': map['desc'],
       'pic_url': map['pic_url'],
       'core_clock': map['clock'],
       'core_count': map['count'],
+      'boost_clock': map['boost'],
       'tdp': map['tdp'],
       'graphics': map['graphics'],
+      'stock': map['stock'],
     });
     notifyListeners();
   }
