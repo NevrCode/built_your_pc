@@ -112,11 +112,11 @@ class CostumTextField extends StatelessWidget {
   const CostumTextField({
     super.key,
     required this.controller,
-    this.borderColor = Colors.white,
+    this.borderColor = const Color.fromARGB(255, 170, 170, 170),
     required this.radius,
     this.icon,
     required this.labelText,
-    this.padding = const EdgeInsets.fromLTRB(18, 8, 18, 8),
+    this.padding = const EdgeInsets.fromLTRB(8, 8, 8, 8),
     this.inputType = TextInputType.text,
   });
   final EdgeInsets padding;
@@ -138,13 +138,13 @@ class CostumTextField extends StatelessWidget {
           keyboardType: inputType,
           decoration: InputDecoration(
             labelText: labelText,
-            labelStyle: const TextStyle(color: Color.fromARGB(255, 75, 75, 75)),
-            prefixIcon: Icon(
-              icon,
-              color: const Color.fromARGB(255, 20, 20, 20),
-            ),
+            labelStyle: const TextStyle(
+                color: Color.fromARGB(255, 75, 75, 75),
+                fontFamily: 'Poppins-regular',
+                fontSize: 14),
             enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.white),
+              borderSide:
+                  const BorderSide(color: Color.fromARGB(255, 179, 177, 177)),
               borderRadius: BorderRadius.circular(radius),
             ),
             focusedBorder: OutlineInputBorder(
@@ -155,9 +155,9 @@ class CostumTextField extends StatelessWidget {
               borderSide: const BorderSide(color: Colors.white),
               borderRadius: BorderRadius.circular(radius),
             ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
             filled: true,
-            fillColor: const Color.fromARGB(255, 248, 248, 248),
+            fillColor: const Color.fromARGB(255, 247, 247, 247),
           ),
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:built_your_pc/pages/admin/add_item.dart';
+import 'package:built_your_pc/pages/admin/admin_add_menu.dart';
 import 'package:built_your_pc/pages/components/bar_chart.dart';
 import 'package:built_your_pc/pages/components/content_container.dart';
 import 'package:built_your_pc/pages/components/line_chart.dart';
@@ -192,7 +193,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 child: GestureDetector(
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const AddItemPage(),
+                      builder: (context) => const AdminAddMenuPage(),
                     ),
                   ),
                   child: CostumText(
