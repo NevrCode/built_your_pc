@@ -21,7 +21,11 @@ class AuthProvider with ChangeNotifier {
     final AuthResponse res = await supabase.auth.signUp(
       email: email,
       password: password,
-      data: {'displayName': name, 'profile_picture': profilePic},
+      data: {
+        'displayName': name,
+        'profile_picture': profilePic,
+        'roles': 'admin'
+      },
     );
     session = res.session;
     user = res.user;
