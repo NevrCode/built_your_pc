@@ -87,7 +87,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         const SizedBox(height: 36),
 
-                        // Tombol Upload Foto
                         Padding(
                           padding: const EdgeInsets.fromLTRB(18, 8, 18, 8),
                           child: SizedBox(

@@ -1,4 +1,7 @@
+import 'package:built_your_pc/pages/admin/admin.dart';
+import 'package:built_your_pc/pages/admin/admin_catalog.dart';
 import 'package:built_your_pc/pages/login.dart';
+import 'package:built_your_pc/pages/register.dart';
 import 'package:built_your_pc/pages/user/index.dart';
 import 'package:built_your_pc/services/auth_provider.dart';
 import 'package:flutter/material.dart';
@@ -33,8 +36,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData.dark(),
-      home: const LoginPage(),
+      theme: ThemeData.light(),
+      routes: {
+        '/': (context) => const IndexPage(),
+        '/login': (context) => const LoginPage(),
+        '/register': (context) => const RegisterPage(),
+        '/forgot': (context) => const Placeholder(),
+        '/admin': (context) => const AdminHomePage(),
+        '/adminKatalog': (context) => const AdminCatalogPage(),
+      },
+      initialRoute: '/admin',
     );
   }
 }

@@ -79,7 +79,7 @@ class _IndexPageState extends State<IndexPage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _tabIndex,
-        elevation: 0,
+        elevation: 0.2,
         iconSize: 27,
         selectedLabelStyle: const TextStyle(fontFamily: 'poppins-bold'),
         unselectedLabelStyle: const TextStyle(fontFamily: 'poppins-regular'),

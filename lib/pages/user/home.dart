@@ -13,11 +13,11 @@ final List<String> imgList = [
   'assets/img/pc-set.jpg',
   'assets/img/pc-setup.jpg',
   'assets/img/pcsetup2.jpg',
+  'assets/img/10per.png',
 ];
 final List<Widget> imageSliders = imgList
     .map((item) => Container(
           child: Container(
-            margin: EdgeInsets.all(5.0),
             child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 child: Stack(
@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
         CarouselSlider(
           items: imageSliders,
           options: CarouselOptions(
-            viewportFraction: 1.1,
+            viewportFraction: 1,
             autoPlay: true,
             aspectRatio: 1.5,
             enlargeCenterPage: true,
@@ -71,7 +71,8 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.fromLTRB(8, 10, 8, 10),
                         child: CostumText(
                           data:
-                              "Welcome back, ${supabase.auth.currentUser!.userMetadata!['displayName']}",
+                              "Welcome back, ${supabase.auth.currentUser!.userMetadata!['displayName']}" ??
+                                  "Welcome back, user",
                           color: const Color.fromARGB(255, 65, 65, 65),
                           size: 14,
                         ),
