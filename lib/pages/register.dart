@@ -44,7 +44,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final pass = _passwordController.text;
     final nama = _namaController.text;
     String fullPath = await supabase.storage.from('profile/profile').upload(
-          basename(_userProfile!.path),
+          "${DateTime.now().millisecondsSinceEpoch}.jpg",
           _userProfile!,
           fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
         );

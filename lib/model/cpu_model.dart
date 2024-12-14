@@ -38,7 +38,7 @@ class CPUModel {
       name: map['name'] as String,
       description: map['description'] as String?,
       price: map['price'] as int,
-      stok: map['stok'] as int,
+      stok: map['stock'] as int,
       tdp: map['tdp'] as String,
       graphics: map['graphics'] as String,
       clock: map['core_clock'] as String,
