@@ -4,6 +4,7 @@ import 'package:built_your_pc/pages/admin/admin.dart';
 import 'package:built_your_pc/pages/register.dart';
 import 'package:built_your_pc/pages/user/index.dart';
 import 'package:built_your_pc/services/auth_provider.dart';
+import 'package:built_your_pc/services/component_provider.dart';
 import 'package:built_your_pc/services/pref.dart';
 import 'package:built_your_pc/util/app_color.dart';
 import 'package:flutter/material.dart';
@@ -193,9 +194,9 @@ class _LoginPageState extends State<LoginPage> {
                               await auth.signInWithPass(email, password);
 
                               if (auth.user != null && mounted) {
-                                // Provider.of<VehicleProvider>(context,
-                                //         listen: false)
-                                //     .fetchData();
+                                Provider.of<ComponentProvider>(context,
+                                        listen: false)
+                                    .fetchComponents();
 
                                 // Provider.of<LocationProvider>(context,
                                 //         listen: false)
