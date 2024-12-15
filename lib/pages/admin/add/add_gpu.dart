@@ -20,6 +20,7 @@ class AddGPUPage extends StatefulWidget {
 
 class _AddGPUPageState extends State<AddGPUPage> {
   File? _file;
+  bool isLoading = false;
   final _picker = ImagePicker();
 
   final _name = TextEditingController();
@@ -62,6 +63,9 @@ class _AddGPUPageState extends State<AddGPUPage> {
   }
 
   Future<void> _addComponents(context) async {
+    setState(() {
+      isLoading = true;
+    });
     final comps = Provider.of<ComponentProvider>(context, listen: false);
     final name = _name.text;
     final memory = _memory.text;
@@ -73,31 +77,39 @@ class _AddGPUPageState extends State<AddGPUPage> {
     final color = _color.text;
     final description = _desc.text;
     final stock = int.parse(_stok.text);
-    String fullPath = await supabase.storage.from('profile/product').upload(
-          "${DateTime.now().millisecondsSinceEpoch}.jpg",
-          _file!,
-          fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
+    try {
+      String fullPath = await supabase.storage.from('profile/product').upload(
+            "${DateTime.now().millisecondsSinceEpoch}.jpg",
+            _file!,
+            fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
+          );
+      final url = fullPath.replaceFirst("profile", "");
+      if (_file != null) {
+        final id = generateSKU();
+        final gpu = GPUModel(
+          id: id,
+          name: name,
+          description: description,
+          price: price,
+          picUrl: url,
+          chipset: chipset,
+          coreClock: "${clock}MHz",
+          boostClock: "${boost}MHz",
+          memory: "${memory}GB",
+          color: color,
+          length: "${length}mm",
+          stock: stock,
         );
-    final url = fullPath.replaceFirst("profile", "");
-    if (_file != null) {
-      final id = generateSKU();
-      final gpu = GPUModel(
-        id: id,
-        name: name,
-        description: description,
-        price: price,
-        picUrl: url,
-        chipset: chipset,
-        coreClock: "${clock}MHz",
-        boostClock: "${boost}MHz",
-        memory: "${memory}GB",
-        color: color,
-        length: "${length}mm",
-        stock: stock,
-      );
-      await comps.addComponentModel(gpu);
-    } else {
-      _showSnackBar(context, "Perlu Gambar!");
+        await comps.addComponentModel(gpu);
+      } else {
+        _showSnackBar(context, "Perlu Gambar!");
+      }
+    } finally {
+      setState(() {
+        isLoading = false;
+        clearAll();
+        _showSnackBar(context, "Barang berhasil ditambahkan!");
+      });
     }
   }
 
@@ -112,164 +124,182 @@ class _AddGPUPageState extends State<AddGPUPage> {
           size: 14,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(7)),
-                      child: _file != null
-                          ? InkWell(
-                              onTap: () => _pickProductPicture(),
-                              child: Image.file(
-                                _file!,
-                                width: 130,
-                                height: 130,
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          : InkWell(
-                              onTap: () => _pickProductPicture(),
-                              splashFactory: InkSplash.splashFactory,
-                              splashColor: Colors.white,
-                              child: Container(
-                                width: 120,
-                                height: 120,
-                                color: const Color.fromARGB(255, 179, 179, 179),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.add,
-                                      size: 40,
-                                      color: Color.fromARGB(255, 207, 207, 207),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(7)),
+                          child: _file != null
+                              ? InkWell(
+                                  onTap: () => _pickProductPicture(),
+                                  child: Image.file(
+                                    _file!,
+                                    width: 130,
+                                    height: 130,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              : InkWell(
+                                  onTap: () => _pickProductPicture(),
+                                  splashFactory: InkSplash.splashFactory,
+                                  splashColor: Colors.white,
+                                  child: Container(
+                                    width: 120,
+                                    height: 120,
+                                    color: const Color.fromARGB(
+                                        255, 179, 179, 179),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.add,
+                                          size: 40,
+                                          color: Color.fromARGB(
+                                              255, 207, 207, 207),
+                                        ),
+                                        const CostumText(
+                                          data: 'Upload Foto',
+                                          size: 12,
+                                          color: Color.fromARGB(
+                                              255, 219, 218, 218),
+                                        ),
+                                      ],
                                     ),
-                                    const CostumText(
-                                      data: 'Upload Foto',
-                                      size: 12,
-                                      color: Color.fromARGB(255, 219, 218, 218),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
+                  CostumTextField(
+                      controller: _name, radius: 7, labelText: "nama gpu"),
+                  CostumTextField(
+                      controller: _chipset, radius: 7, labelText: "chipset"),
+                  Row(
+                    children: [
+                      Flexible(
+                        flex: 6,
+                        child: CostumTextField(
+                          controller: _boost,
+                          radius: 7,
+                          labelText: "boost clock",
+                          suffixText: "MHz",
+                          inputType: TextInputType.number,
+                        ),
+                      ),
+                      Flexible(
+                          flex: 5,
+                          child: CostumTextField(
+                            controller: _length,
+                            radius: 7,
+                            labelText: "length",
+                            suffixText: "mm  ",
+                            inputType: TextInputType.number,
+                          ))
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        flex: 6,
+                        child: CostumTextField(
+                          controller: _clock,
+                          radius: 7,
+                          labelText: "core clock",
+                          suffixText: "MHz",
+                          inputType: TextInputType.number,
+                        ),
+                      ),
+                      Flexible(
+                        flex: 5,
+                        child: CostumTextField(
+                          controller: _color,
+                          radius: 7,
+                          labelText: "color",
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Flexible(
+                        flex: 6,
+                        child: CostumTextField(
+                          controller: _memory,
+                          radius: 7,
+                          labelText: "memory",
+                          suffixText: "GB",
+                          inputType: TextInputType.number,
+                        ),
+                      ),
+                      Flexible(
+                        flex: 5,
+                        child: CostumTextField(
+                          controller: _stok,
+                          radius: 7,
+                          labelText: "Stok",
+                          inputType: TextInputType.number,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        flex: 6,
+                        child: CostumTextField(
+                          controller: _price,
+                          radius: 7,
+                          labelText: "price",
+                          inputType: TextInputType.number,
+                        ),
+                      ),
+                      Flexible(
+                        flex: 5,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 10.0),
+                          child: MyButton(
+                              elevation: 1,
+                              color: green,
+                              width: 120,
+                              height: 40,
+                              onTap: () => _addComponents(context),
+                              child: CostumText(
+                                data: "Submit",
+                                color: Colors.white,
+                              )),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+          if (isLoading)
+            Container(
+              color: const Color.fromARGB(117, 70, 70, 70),
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: green,
                 ),
               ),
-              CostumTextField(
-                  controller: _name, radius: 7, labelText: "nama gpu"),
-              CostumTextField(
-                  controller: _chipset, radius: 7, labelText: "chipset"),
-              Row(
-                children: [
-                  Flexible(
-                    flex: 6,
-                    child: CostumTextField(
-                      controller: _boost,
-                      radius: 7,
-                      labelText: "boost clock",
-                      suffixText: "MHz",
-                      inputType: TextInputType.number,
-                    ),
-                  ),
-                  Flexible(
-                      flex: 5,
-                      child: CostumTextField(
-                        controller: _length,
-                        radius: 7,
-                        labelText: "length",
-                        suffixText: "mm  ",
-                        inputType: TextInputType.number,
-                      ))
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Flexible(
-                    flex: 6,
-                    child: CostumTextField(
-                      controller: _clock,
-                      radius: 7,
-                      labelText: "core clock",
-                      suffixText: "MHz",
-                      inputType: TextInputType.number,
-                    ),
-                  ),
-                  Flexible(
-                    flex: 5,
-                    child: CostumTextField(
-                      controller: _color,
-                      radius: 7,
-                      labelText: "color",
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Flexible(
-                    flex: 6,
-                    child: CostumTextField(
-                      controller: _memory,
-                      radius: 7,
-                      labelText: "memory",
-                      suffixText: "GB",
-                      inputType: TextInputType.number,
-                    ),
-                  ),
-                  Flexible(
-                    flex: 5,
-                    child: CostumTextField(
-                      controller: _stok,
-                      radius: 7,
-                      labelText: "Stok",
-                      inputType: TextInputType.number,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    flex: 6,
-                    child: CostumTextField(
-                      controller: _price,
-                      radius: 7,
-                      labelText: "price",
-                      inputType: TextInputType.number,
-                    ),
-                  ),
-                  Flexible(
-                    flex: 5,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: MyButton(
-                          elevation: 1,
-                          color: green,
-                          width: 120,
-                          height: 40,
-                          onTap: () => _addComponents(context),
-                          child: CostumText(
-                            data: "Submit",
-                            color: Colors.white,
-                          )),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
+            ),
+        ],
       ),
     );
   }
@@ -278,6 +308,7 @@ class _AddGPUPageState extends State<AddGPUPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
+        backgroundColor: green,
         duration: Duration(seconds: 2),
       ),
     );
