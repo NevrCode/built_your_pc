@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:built_your_pc/main.dart';
+import 'package:built_your_pc/model/component_model.dart';
+import 'package:built_your_pc/model/cpu_model.dart';
 import 'package:built_your_pc/services/component_provider.dart';
 import 'package:built_your_pc/util/app_color.dart';
 import 'package:built_your_pc/util/util.dart';
@@ -55,9 +57,9 @@ class _AddItemPageState extends State<AddItemPage> {
     _stok.clear();
   }
 
-  String generateSKU() {
+  String generateSKU(String type) {
     final random = Random();
-    return "${widget.type.toUpperCase()}-${_name.text.substring(0, 3)}-${(1000 + random.nextInt(90000)).toString()}";
+    return "${type.toUpperCase()}-${_name.text.substring(0, 3)}-${(1000 + random.nextInt(90000)).toString()}";
   }
 
   Future<void> _addComponents(context) async {
@@ -69,8 +71,8 @@ class _AddItemPageState extends State<AddItemPage> {
     final clock = _clock.text;
     final boost = _boost.text;
     final count = _count.text;
-    final decs = _desc.text;
-    final stok = _stok.text;
+    final description = _desc.text;
+    final stock = _stok.text;
     String fullPath = await supabase.storage.from('profile/product').upload(
           "${DateTime.now().millisecondsSinceEpoch}.jpg",
           _file!,
@@ -79,25 +81,21 @@ class _AddItemPageState extends State<AddItemPage> {
     print(fullPath);
     final url = fullPath.replaceFirst("profile", "");
     if (_file != null) {
-      final id = generateSKU();
+      final id = generateSKU("cpu");
       print(id);
-      await comps.addComponentModel(
-        {
-          'id': id,
-          'name': name,
-          'price': price,
-          'desc': decs,
-          'pic_url': url,
-          'clock': clock,
-          'count': count,
-          'boost': boost,
-          'tdp': tdp,
-          'graphics': graphics,
-          'stock': stok,
-        },
-        widget.type,
-        generateSKU(),
-      );
+      final cpu = CPUModel(
+          id: id,
+          tdp: tdp,
+          graphics: graphics,
+          clock: clock,
+          count: count,
+          boost: boost,
+          stock: int.parse(stock),
+          name: name,
+          description: description,
+          price: int.parse(price),
+          picUrl: url);
+      await comps.addComponentModel(cpu);
     } else {
       _showSnackBar(context, "Perlu Gambar!");
     }
@@ -231,6 +229,15 @@ class _AddItemPageState extends State<AddItemPage> {
                             color: Colors.white,
                           )),
                     ),
+                  ),
+                  // tombol sakti kalo lupa di hapus hapus aje
+                  ElevatedButton(
+                    onPressed: () {
+                      final comps = Provider.of<ComponentProvider>(context,
+                          listen: false);
+                      comps.fetchComponents();
+                    },
+                    child: Text("TEST"),
                   ),
                 ],
               )
