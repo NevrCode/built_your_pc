@@ -114,12 +114,14 @@ class CostumTextField extends StatelessWidget {
     required this.controller,
     this.borderColor = const Color.fromARGB(255, 170, 170, 170),
     required this.radius,
+    this.suffixText,
     this.icon,
     required this.labelText,
     this.padding = const EdgeInsets.fromLTRB(8, 8, 8, 8),
     this.inputType = TextInputType.text,
   });
   final EdgeInsets padding;
+  final String? suffixText;
   final TextEditingController controller;
   final Color borderColor;
   final double radius;
@@ -156,6 +158,15 @@ class CostumTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(radius),
             ),
             contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+            suffixIcon: Align(
+              heightFactor: 1,
+              widthFactor: 1,
+              child: CostumText(
+                data: suffixText ?? "",
+                size: 15,
+              ),
+            ),
+            // suffixText: suffixText ?? "",
             filled: true,
             fillColor: const Color.fromARGB(255, 247, 247, 247),
           ),

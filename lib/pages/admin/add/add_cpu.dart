@@ -13,15 +13,14 @@ import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class AddItemPage extends StatefulWidget {
-  final String type;
-  const AddItemPage({super.key, required this.type});
+class AddCPUPage extends StatefulWidget {
+  const AddCPUPage({super.key});
 
   @override
-  State<AddItemPage> createState() => _AddItemPageState();
+  State<AddCPUPage> createState() => _AddCPUPageState();
 }
 
-class _AddItemPageState extends State<AddItemPage> {
+class _AddCPUPageState extends State<AddCPUPage> {
   File? _file;
   final _picker = ImagePicker();
 
@@ -57,9 +56,9 @@ class _AddItemPageState extends State<AddItemPage> {
     _stok.clear();
   }
 
-  String generateSKU(String type) {
+  String generateSKU() {
     final random = Random();
-    return "${type.toUpperCase()}-${_name.text.substring(0, 3)}-${(1000 + random.nextInt(90000)).toString()}";
+    return "CPU-${_name.text.substring(0, 3)}-${(1000 + random.nextInt(90000)).toString()}";
   }
 
   Future<void> _addComponents(context) async {
@@ -78,18 +77,16 @@ class _AddItemPageState extends State<AddItemPage> {
           _file!,
           fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
         );
-    print(fullPath);
     final url = fullPath.replaceFirst("profile", "");
     if (_file != null) {
-      final id = generateSKU("cpu");
-      print(id);
+      final id = generateSKU();
       final cpu = CPUModel(
           id: id,
-          tdp: tdp,
+          tdp: "${tdp}W",
           graphics: graphics,
-          clock: clock,
-          count: count,
-          boost: boost,
+          clock: "${clock}GHz",
+          count: clock,
+          boost: "${boost}GHz",
           stock: int.parse(stock),
           name: name,
           description: description,
@@ -108,7 +105,7 @@ class _AddItemPageState extends State<AddItemPage> {
       appBar: AppBar(
         backgroundColor: bg,
         title: CostumText(
-          data: "Tambah ${widget.type.toUpperCase()}",
+          data: "Tambah CPU",
           size: 14,
         ),
       ),
@@ -165,30 +162,40 @@ class _AddItemPageState extends State<AddItemPage> {
                 ),
               ),
               CostumTextField(
-                  controller: _name,
-                  radius: 7,
-                  labelText: "nama ${widget.type}"),
+                  controller: _name, radius: 7, labelText: "nama CPU"),
               CostumTextField(
-                  controller: _graphic, radius: 7, labelText: "Graphics"),
+                controller: _graphic,
+                radius: 7,
+                labelText: "graphics",
+              ),
+              CostumTextField(
+                controller: _count,
+                radius: 7,
+                labelText: "core",
+                inputType: TextInputType.number,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Flexible(
-                    flex: 9,
+                    flex: 6,
                     child: CostumTextField(
-                        controller: _count, radius: 7, labelText: "core"),
+                      controller: _clock,
+                      radius: 7,
+                      labelText: "core clock",
+                      suffixText: "GHz",
+                      inputType: TextInputType.number,
+                    ),
                   ),
                   Flexible(
-                    flex: 10,
+                    flex: 5,
                     child: CostumTextField(
-                        controller: _clock, radius: 7, labelText: "core clock"),
-                  ),
-                  Flexible(
-                    flex: 10,
-                    child: CostumTextField(
-                        controller: _boost,
-                        radius: 7,
-                        labelText: "boost clock"),
+                      controller: _tdp,
+                      radius: 7,
+                      labelText: "tdp",
+                      suffixText: "W",
+                      inputType: TextInputType.number,
+                    ),
                   ),
                 ],
               ),
@@ -197,12 +204,21 @@ class _AddItemPageState extends State<AddItemPage> {
                   Flexible(
                     flex: 6,
                     child: CostumTextField(
-                        controller: _tdp, radius: 7, labelText: "tdp"),
+                      controller: _boost,
+                      radius: 7,
+                      labelText: "boost clock",
+                      suffixText: "GHz",
+                      inputType: TextInputType.number,
+                    ),
                   ),
                   Flexible(
                     flex: 5,
                     child: CostumTextField(
-                        controller: _stok, radius: 7, labelText: "Stok"),
+                      controller: _stok,
+                      radius: 7,
+                      labelText: "Stok",
+                      inputType: TextInputType.number,
+                    ),
                   ),
                 ],
               ),
@@ -212,7 +228,11 @@ class _AddItemPageState extends State<AddItemPage> {
                   Flexible(
                     flex: 6,
                     child: CostumTextField(
-                        controller: _price, radius: 7, labelText: "price"),
+                      controller: _price,
+                      radius: 7,
+                      labelText: "price",
+                      inputType: TextInputType.number,
+                    ),
                   ),
                   Flexible(
                     flex: 5,
@@ -229,15 +249,6 @@ class _AddItemPageState extends State<AddItemPage> {
                             color: Colors.white,
                           )),
                     ),
-                  ),
-                  // tombol sakti kalo lupa di hapus hapus aje
-                  ElevatedButton(
-                    onPressed: () {
-                      final comps = Provider.of<ComponentProvider>(context,
-                          listen: false);
-                      comps.fetchComponents();
-                    },
-                    child: Text("TEST"),
                   ),
                 ],
               )

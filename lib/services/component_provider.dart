@@ -36,7 +36,7 @@ class ComponentProvider with ChangeNotifier {
         .map((e) => PSUModel.fromMap(e))
         .toList());
     components = tempList;
-    log(components.toString());
+    print(components.toString());
     notifyListeners();
   }
 

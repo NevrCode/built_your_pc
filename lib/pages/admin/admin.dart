@@ -1,11 +1,7 @@
-import 'package:built_your_pc/pages/admin/add_item.dart';
 import 'package:built_your_pc/pages/admin/admin_add_menu.dart';
-import 'package:built_your_pc/pages/components/bar_chart.dart';
 import 'package:built_your_pc/pages/components/content_container.dart';
 import 'package:built_your_pc/pages/components/line_chart.dart';
-import 'package:built_your_pc/util/app_color.dart';
 import 'package:built_your_pc/util/util.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class AdminHomePage extends StatefulWidget {

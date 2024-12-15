@@ -1,4 +1,8 @@
-import 'package:built_your_pc/pages/admin/add_item.dart';
+import 'package:built_your_pc/pages/admin/add/add_cpu.dart';
+import 'package:built_your_pc/pages/admin/add/add_gpu.dart';
+import 'package:built_your_pc/pages/admin/add/add_psu.dart';
+import 'package:built_your_pc/pages/admin/add/add_ram.dart';
+import 'package:built_your_pc/pages/admin/add/add_ssd.dart';
 import 'package:built_your_pc/pages/components/content_container.dart';
 import 'package:built_your_pc/util/app_color.dart';
 import 'package:built_your_pc/util/util.dart';
@@ -27,13 +31,23 @@ class _AdminAddMenuPageState extends State<AdminAddMenuPage> {
             shrinkWrap: true,
             itemCount: types.length,
             itemBuilder: (context, index) {
+              final type = types[index];
               return Padding(
                 padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                 child: GestureDetector(
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => AddItemPage(
-                            type: types[index],
-                          ))),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => type == "cpu"
+                          ? AddCPUPage()
+                          : type == "gpu"
+                              ? AddGPUPage()
+                              : type == "ram"
+                                  ? AddRAMPage()
+                                  : type == "ssd"
+                                      ? AddSSDPage()
+                                      : AddPSUPage(),
+                    ),
+                  ),
                   child: ContentContainer(
                       child: Padding(
                     padding: const EdgeInsets.fromLTRB(10, 14, 20, 14),
