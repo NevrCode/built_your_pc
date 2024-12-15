@@ -3,6 +3,10 @@ import 'dart:developer';
 import 'package:built_your_pc/main.dart';
 import 'package:built_your_pc/model/component_model.dart';
 import 'package:built_your_pc/model/cpu_model.dart';
+import 'package:built_your_pc/model/gpu_model.dart';
+import 'package:built_your_pc/model/psu_model.dart';
+import 'package:built_your_pc/model/ram_model.dart';
+import 'package:built_your_pc/model/ssd_model.dart';
 import 'package:flutter/material.dart';
 
 class ComponentProvider with ChangeNotifier {
@@ -10,9 +14,7 @@ class ComponentProvider with ChangeNotifier {
 
   Future<void> addComponentModel(ComponentModel model) async {
     components.add(model);
-    await supabase.from(model.type).insert(model.toMap());
-    log(components.toString());
-    log("finish");
+    await supabase.from(model.tableType).insert(model.toMap());
     notifyListeners();
   }
 
@@ -21,18 +23,18 @@ class ComponentProvider with ChangeNotifier {
     tempList.addAll((await supabase.from("cpu").select())
         .map((e) => CPUModel.fromMap(e))
         .toList());
-    // tempList.addAll((await supabase.from("gpu").select())
-    //     .map((e) => GPU.fromMap(e))
-    //     .toList());
-    // tempList.addAll((await supabase.from("ram").select())
-    //     .map((e) => RAM.fromMap(e))
-    //     .toList());
-    // tempList.addAll((await supabase.from("ssd").select())
-    //     .map((e) => SSD.fromMap(e))
-    //     .toList());
-    // tempList.addAll((await supabase.from("psu").select())
-    //     .map((e) => PSU.fromMap(e))
-    //     .toList());
+    tempList.addAll((await supabase.from("gpu").select())
+        .map((e) => GPUModel.fromMap(e))
+        .toList());
+    tempList.addAll((await supabase.from("ram").select())
+        .map((e) => RAMModel.fromMap(e))
+        .toList());
+    tempList.addAll((await supabase.from("ssd").select())
+        .map((e) => SSDModel.fromMap(e))
+        .toList());
+    tempList.addAll((await supabase.from("psu").select())
+        .map((e) => PSUModel.fromMap(e))
+        .toList());
     components = tempList;
     log(components.toString());
     notifyListeners();
@@ -42,7 +44,10 @@ class ComponentProvider with ChangeNotifier {
     int index = components.indexWhere((item) => item.id == model.id);
     if (index != -1) {
       components[index] = model;
-      await supabase.from(model.type).update(model.toMap()).eq('id', model.id);
+      await supabase
+          .from(model.tableType)
+          .update(model.toMap())
+          .eq('id', model.id);
     }
     notifyListeners();
   }
@@ -51,7 +56,7 @@ class ComponentProvider with ChangeNotifier {
     int index = components.indexWhere((item) => item.id == model.id);
     if (index != -1) {
       components.removeAt(index);
-      await supabase.from(model.type).delete().eq('id', model.id);
+      await supabase.from(model.tableType).delete().eq('id', model.id);
     }
     notifyListeners();
   }

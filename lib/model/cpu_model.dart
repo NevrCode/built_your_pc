@@ -6,7 +6,6 @@ class CPUModel extends ComponentModel {
   final String clock;
   final String count;
   final String boost;
-  final int price;
 
   CPUModel({
     required super.id,
@@ -18,9 +17,9 @@ class CPUModel extends ComponentModel {
     required super.stock,
     required super.name,
     required super.description,
-    required this.price,
+    required super.price,
     required super.picUrl,
-    super.type = "cpu",
+    super.tableType = "cpu",
   });
 
   @override
