@@ -22,12 +22,11 @@ class ComponentProvider with ChangeNotifier {
       filtered = components;
     } else {
       filtered = components
-          .where((item) => item.name
-              .toLowerCase()
-              .contains(query.toLowerCase())) // Case-insensitive search
+          .where(
+              (item) => item.name.toLowerCase().contains(query.toLowerCase()))
           .toList();
     }
-    notifyListeners(); // Notify listeners about the change
+    notifyListeners();
   }
 
   Future<void> fetchComponents() async {
@@ -48,15 +47,12 @@ class ComponentProvider with ChangeNotifier {
         .map((e) => PSUModel.fromMap(e))
         .toList());
     components = tempList;
-    print(components);
     notifyListeners();
   }
 
   Future<void> updateComponent(ComponentModel model) async {
     int index = components.indexWhere((item) => item.id == model.id);
-    print("ae");
     if (index != -1) {
-      print("mauk");
       components[index] = model;
       await supabase
           .from(model.tableType)

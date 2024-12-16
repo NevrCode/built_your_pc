@@ -31,13 +31,12 @@ class LocationProvider with ChangeNotifier {
   }
 
   Future<void> updateData(LocationModel modifiedLocation) async {
-    locations
-        .removeWhere((item) => item.locationId == modifiedLocation.locationId);
+    locations.removeWhere((item) => item.id == modifiedLocation.id);
     locations.add(modifiedLocation);
     await supabase
         .from('locations')
         .update(modifiedLocation.toMap())
-        .eq('location_id', modifiedLocation.locationId);
+        .eq('location_id', modifiedLocation.id);
 
     notifyListeners();
   }

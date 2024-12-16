@@ -1,31 +1,31 @@
-class Order {
-  final int id;
-  final String? pcId;
-  final String? userId;
-  final String? status;
+import 'package:built_your_pc/model/pc_model.dart';
 
-  Order({
+class OrderModel {
+  final String id;
+  final PCModel pc;
+  final String userId;
+  String status;
+
+  OrderModel({
     required this.id,
-    this.pcId,
-    this.userId,
-    this.status,
+    required this.pc,
+    required this.userId,
+    required this.status,
   });
 
-  // Factory constructor to create an Order from a map
-  factory Order.fromMap(Map<String, dynamic> map) {
-    return Order(
-      id: map['id'] as int,
-      pcId: map['pc_id'] as String?,
-      userId: map['user_id'] as String?,
-      status: map['status'] as String?,
+  factory OrderModel.fromMap(Map<String, dynamic> map) {
+    return OrderModel(
+      id: map['id'] as String,
+      pc: PCModel.fromMap(map['pc_id'] as Map<String, dynamic>),
+      userId: map['user_id'] as String,
+      status: map['status'] as String,
     );
   }
 
-  // Method to convert an Order instance to a map
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'pc_id': pcId,
+      'pc_id': pc.id,
       'user_id': userId,
       'status': status,
     };
