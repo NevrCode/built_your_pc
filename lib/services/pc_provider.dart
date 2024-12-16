@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:built_your_pc/main.dart';
 import 'package:built_your_pc/model/pc_model.dart';
 import 'package:flutter/material.dart';
