@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Container(
                   margin: const EdgeInsets.fromLTRB(0, 140, 0, 180),
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 18, 18, 18),
+                    color: const Color.fromARGB(255, 252, 252, 252),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Center(
@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                           "Build Your PC",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: Color.fromARGB(255, 226, 226, 226),
+                              color: Color.fromARGB(255, 88, 88, 88),
                               fontFamily: 'Poppins-regular',
                               fontSize: 17),
                         ),
@@ -69,58 +69,69 @@ class _LoginPageState extends State<LoginPage> {
                           width: 300,
                           child: TextField(
                             controller: _emailController,
+                            style: TextStyle(
+                              fontFamily: "Poppins-regular",
+                              fontSize: 16,
+                            ),
                             decoration: InputDecoration(
                               labelText: 'E-mail',
                               labelStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 226, 226, 226)),
+                                color: Color.fromARGB(255, 70, 69, 69),
+                                fontFamily: "Poppins-regular",
+                                fontSize: 16,
+                              ),
                               prefixIcon: const Icon(
                                 Icons.email,
-                                color: Color.fromARGB(255, 194, 194, 194),
+                                color: Color.fromARGB(255, 68, 68, 68),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
-                                    color: Color.fromARGB(255, 70, 70, 70)),
+                                    color: Color.fromARGB(255, 211, 211, 211)),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
-                                    color: Color.fromARGB(255, 117, 117, 117)),
+                                    color: Color.fromARGB(255, 190, 190, 190)),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               border: OutlineInputBorder(
                                 borderSide: const BorderSide(
-                                    color: Color.fromARGB(255, 78, 78, 78)),
+                                    color: Color.fromARGB(255, 224, 223, 223)),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               contentPadding:
                                   const EdgeInsets.symmetric(horizontal: 20),
                               filled: true,
-                              fillColor: const Color.fromARGB(255, 63, 63, 63),
+                              fillColor:
+                                  const Color.fromARGB(255, 240, 240, 240),
                             ),
                           ),
                         ),
                         const SizedBox(height: 16),
-
-                        // TextField password dengan ikon mata untuk menampilkan/menyembunyikan password
                         SizedBox(
                           width: 300,
                           child: TextField(
+                            style: TextStyle(
+                              fontFamily: "Poppins-regular",
+                              fontSize: 16,
+                            ),
                             controller: _passwordController,
                             obscureText: _obscureText,
                             decoration: InputDecoration(
-                              iconColor: const Color.fromARGB(26, 168, 73, 73),
                               labelText: 'Password',
                               labelStyle: const TextStyle(
-                                  fontFamily: "Poppins-regular",
-                                  color: Color.fromARGB(255, 218, 218, 218)),
-                              prefixIcon: const Icon(Icons.lock,
-                                  color: Color.fromARGB(255, 194, 194, 194)),
+                                  color: Color.fromARGB(255, 70, 69, 69),
+                                  fontFamily: "Poppins-regular"),
+                              prefixIcon: const Icon(
+                                Icons.lock,
+                                color: Color.fromARGB(255, 68, 68, 68),
+                              ),
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _obscureText
                                       ? Icons.visibility_off
                                       : Icons.visibility,
-                                  color: Color.fromARGB(255, 194, 194, 194),
+                                  color: Color.fromARGB(255, 82, 82, 82),
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -130,29 +141,28 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
-                                    color: Color.fromARGB(255, 63, 63, 63)),
+                                    color: Color.fromARGB(255, 211, 211, 211)),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 105, 105, 104),
-                                ),
+                                    color: Color.fromARGB(255, 190, 190, 190)),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               border: OutlineInputBorder(
-                                borderSide:
-                                    const BorderSide(color: Colors.white),
+                                borderSide: const BorderSide(
+                                    color: Color.fromARGB(255, 224, 223, 223)),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               contentPadding:
                                   const EdgeInsets.symmetric(horizontal: 20),
                               filled: true,
-                              fillColor: Color.fromARGB(255, 63, 63, 63),
+                              fillColor:
+                                  const Color.fromARGB(255, 240, 240, 240),
                             ),
                           ),
                         ),
 
-                        // Link Lupa Password di bawah isian Password
                         Align(
                           alignment: Alignment.centerRight,
                           child: TextButton(
@@ -167,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
                               'Lupa Password?',
                               style: TextStyle(
                                   fontFamily: 'Poppins-Regular',
-                                  color: Color.fromARGB(255, 233, 233, 233)),
+                                  color: Color.fromARGB(255, 121, 121, 121)),
                             ),
                           ),
                         ),
@@ -208,7 +218,10 @@ class _LoginPageState extends State<LoginPage> {
                                     backgroundColor: const Color.fromARGB(
                                         255, 242, 255, 242),
                                     content: Text(
-                                      'Hi, ${auth.user!.userMetadata?['displayName']}. Selamat Berbelanja',
+                                      auth.user!.userMetadata!['roles'] ==
+                                              "admin"
+                                          ? "Welcome to admin panel"
+                                          : 'Hi, ${auth.user!.userMetadata?['displayName']}. Selamat Berbelanja',
                                       style: const TextStyle(
                                           fontFamily: 'Poppins-regular',
                                           fontSize: 14,

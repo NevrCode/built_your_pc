@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
         '/admin': (context) => const AdminHomePage(),
         '/adminKatalog': (context) => const AdminCatalogPage(),
       },
-      initialRoute: '/admin',
+      initialRoute: '/login',
     );
   }
 }

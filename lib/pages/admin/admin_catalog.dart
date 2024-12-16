@@ -1,14 +1,10 @@
-import 'package:built_your_pc/main.dart';
 import 'package:built_your_pc/model/component_model.dart';
-import 'package:built_your_pc/pages/components/content_container.dart';
+import 'package:built_your_pc/model/cpu_model.dart';
+import 'package:built_your_pc/pages/admin/edit_cpu.dart';
 import 'package:built_your_pc/services/component_provider.dart';
 import 'package:built_your_pc/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:standard_searchbar/new/standard_search_anchor.dart';
-import 'package:standard_searchbar/new/standard_search_bar.dart';
-import 'package:standard_searchbar/new/standard_suggestion.dart';
-import 'package:standard_searchbar/new/standard_suggestions.dart';
 
 import '../../util/app_color.dart';
 
@@ -32,8 +28,10 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
     final cp = Provider.of<ComponentProvider>(context, listen: false);
     final comp = cp.components;
     return Scaffold(
+      backgroundColor: bg,
       appBar: AppBar(
         surfaceTintColor: const Color.fromARGB(255, 250, 250, 255),
+        backgroundColor: bg,
         title: CostumText(
           data: "Admin Katalog",
           size: 15,
@@ -59,22 +57,24 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
                             fontSize: 14),
                         enabledBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
-                              color: Color.fromARGB(255, 179, 177, 177)),
+                              color: Color.fromARGB(255, 117, 117, 117)),
                           borderRadius: BorderRadius.circular(7),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: bg),
+                          borderSide: BorderSide(
+                              color: const Color.fromARGB(255, 148, 148, 148)),
                           borderRadius: BorderRadius.circular(7),
                         ),
                         border: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.white),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 179, 179, 179)),
                           borderRadius: BorderRadius.circular(7),
                         ),
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 20),
                         prefixIcon: Icon(Icons.search),
                         filled: true,
-                        fillColor: const Color.fromARGB(255, 247, 247, 247),
+                        fillColor: const Color.fromARGB(255, 248, 248, 248),
                       ),
                     ),
                   ),
@@ -137,6 +137,12 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
                                                 size: 12,
                                               ),
                                               CostumText(
+                                                data: item is CPUModel
+                                                    ? item.count
+                                                    : item.name,
+                                                size: 12,
+                                              ),
+                                              CostumText(
                                                 data: "Stok : ${item.stock}",
                                                 size: 12,
                                                 color: item.stock < 10
@@ -154,21 +160,27 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
                               ),
                               Column(
                                 children: [
-                                  Container(
-                                    width: 70,
-                                    height: 35,
-                                    decoration: BoxDecoration(
+                                  InkWell(
+                                    onTap: () => Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                EditCPUPage(cm: item))),
+                                    child: Container(
+                                      width: 70,
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                          color: const Color.fromARGB(
+                                              255, 250, 249, 239),
+                                          border: Border.all(
+                                              color: const Color.fromARGB(
+                                                  255, 231, 211, 33)),
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                      child: Icon(
+                                        Icons.edit,
                                         color: const Color.fromARGB(
-                                            255, 250, 249, 239),
-                                        border: Border.all(
-                                            color: const Color.fromARGB(
-                                                255, 231, 211, 33)),
-                                        borderRadius:
-                                            BorderRadius.circular(12)),
-                                    child: Icon(
-                                      Icons.edit,
-                                      color: const Color.fromARGB(
-                                          255, 255, 238, 7),
+                                            255, 255, 238, 7),
+                                      ),
                                     ),
                                   ),
                                   Padding(
@@ -176,7 +188,7 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
                                     child: InkWell(
                                       onTap: () =>
                                           _showDeleteConfirmationDialog(
-                                              context),
+                                              context, item),
                                       child: Container(
                                         width: 70,
                                         height: 35,
@@ -293,8 +305,8 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 4.0),
                                   child: InkWell(
-                                    onTap: () =>
-                                        _showDeleteConfirmationDialog(context),
+                                    onTap: () => _showDeleteConfirmationDialog(
+                                        context, item),
                                     child: Container(
                                       width: 70,
                                       height: 35,
@@ -330,10 +342,11 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
     );
   }
 
-  void _showDeleteConfirmationDialog(BuildContext context) {
+  void _showDeleteConfirmationDialog(BuildContext context, ComponentModel cm) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final cp = Provider.of<ComponentProvider>(context, listen: false);
         return AlertDialog(
           backgroundColor: Colors.white,
           title: CostumText(data: "Confirm Delete"),
@@ -352,7 +365,7 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
             ),
             TextButton(
               onPressed: () {
-                // Perform delete action here
+                cp.deleteComponent(cm);
                 Navigator.of(context).pop(); // Close the dialog
                 _showSnackBar(context, "Item deleted successfully.");
               },

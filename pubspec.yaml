@@ -43,7 +43,6 @@ dependencies:
   fl_chart: ^0.69.2
   flutter_stripe: ^11.3.0
   http: ^1.2.2
-  standard_searchbar: ^2.1.1
 
 dev_dependencies:
   flutter_test:
