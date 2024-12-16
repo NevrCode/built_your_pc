@@ -47,6 +47,7 @@ class ComponentProvider with ChangeNotifier {
         .map((e) => PSUModel.fromMap(e))
         .toList());
     components = tempList;
+    filtered = tempList;
     notifyListeners();
   }
 
