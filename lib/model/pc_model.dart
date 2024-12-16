@@ -16,6 +16,7 @@ class PCModel {
   String userId;
   String notes;
   LocationModel deliveryLocation;
+  int get price => cpu.price + gpu!.price + ssd.price + ram.price + psu.price;
 
   PCModel({
     required this.id,
@@ -38,17 +39,31 @@ class PCModel {
       gpu: map['gpu'] != null
           ? GPUModel.fromMap(map['gpu'] as Map<String, dynamic>)
           : null,
-      ram: RAMModel.fromMap(map['cpu'] as Map<String, dynamic>),
+      ram: RAMModel.fromMap(map['ram'] as Map<String, dynamic>),
       ssd: SSDModel.fromMap(map['ssd'] as Map<String, dynamic>),
       psu: PSUModel.fromMap(map['psu'] as Map<String, dynamic>),
-      userId: map['userId'] as String,
+      userId: map['user_id'] as String,
       notes: map['notes'] as String,
       deliveryLocation: LocationModel.fromMap(
-          map['deliveryLocation'] as Map<String, dynamic>),
+          map['delivery_location'] as Map<String, dynamic>),
     );
   }
 
   Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'cpu': cpu.id,
+      'gpu': gpu?.id,
+      'ssd': ssd.id,
+      'ram': ram.id,
+      'psu': psu.id,
+      'user_id': userId,
+      'notes': notes,
+      'delivery_location': deliveryLocation.id,
+    };
+  }
+
+  Map<String, dynamic> toMapComplete() {
     return {
       'id': id,
       'cpu': cpu.toMap(),
@@ -56,9 +71,9 @@ class PCModel {
       'ssd': ssd.toMap(),
       'ram': ram.toMap(),
       'psu': psu.toMap(),
-      'userId': userId,
+      'user_id': userId,
       'notes': notes,
-      'deliveryLocation': deliveryLocation.toMap(),
+      'delivery_location': deliveryLocation.toMap(),
     };
   }
 }

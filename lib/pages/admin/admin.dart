@@ -55,7 +55,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: 3,
+                    itemCount: 0, // pc blm ada
                     itemBuilder: (context, index) {
                       final item = items[index];
                       return ContentContainer(
