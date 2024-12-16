@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:built_your_pc/pages/admin/admin.dart';
+import 'package:built_your_pc/pages/admin/admin_index.dart';
 import 'package:built_your_pc/pages/register.dart';
 import 'package:built_your_pc/pages/user/index.dart';
 import 'package:built_your_pc/services/auth_provider.dart';
@@ -40,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Container(
                   margin: const EdgeInsets.fromLTRB(0, 140, 0, 180),
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 252, 252, 252),
+                    color: bg,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Center(
@@ -204,9 +205,10 @@ class _LoginPageState extends State<LoginPage> {
                               await auth.signInWithPass(email, password);
 
                               if (auth.user != null && mounted) {
-                                Provider.of<ComponentProvider>(context,
-                                        listen: false)
-                                    .fetchComponents();
+                                final cp = Provider.of<ComponentProvider>(
+                                    context,
+                                    listen: false);
+                                await cp.fetchComponents();
 
                                 // Provider.of<LocationProvider>(context,
                                 //         listen: false)
@@ -236,23 +238,24 @@ class _LoginPageState extends State<LoginPage> {
                                   auth.user!.id,
                                   auth.user!.email!,
                                 );
-                                if (auth.user!.userMetadata!['roles'] ==
-                                    "admin") {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const AdminHomePage()));
-                                } else {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const IndexPage()));
-                                }
                               }
                             } catch (e) {
                               Text(e.toString());
+                            } finally {
+                              if (auth.user!.userMetadata!['roles'] ==
+                                  "admin") {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const AdminIndex()));
+                              } else {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const IndexPage()));
+                              }
                             }
                           },
                           child: const Text(
