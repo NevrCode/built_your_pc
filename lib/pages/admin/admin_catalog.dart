@@ -20,7 +20,6 @@ class AdminCatalogPage extends StatefulWidget {
 }
 
 class _AdminCatalogPageState extends State<AdminCatalogPage> {
-  List<ComponentModel> _filteredItems = [];
   String? query;
   final TextEditingController controller = TextEditingController();
   @override
@@ -28,25 +27,10 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
     super.initState();
   }
 
-  void _filterItems(String query, ComponentProvider cp) {
-    if (query.isEmpty) {
-      setState(() {
-        _filteredItems = cp.components;
-      });
-    } else {
-      setState(() {
-        _filteredItems = cp.components
-            .where((item) => item.name
-                .toLowerCase()
-                .contains(query.toLowerCase())) // Case-insensitive search
-            .toList();
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final cp = Provider.of<ComponentProvider>(context, listen: false);
+    final comp = cp.components;
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor: const Color.fromARGB(255, 250, 250, 255),
@@ -66,7 +50,7 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
                     child: TextField(
                       style: const TextStyle(fontFamily: "Poppins-regular"),
                       controller: controller,
-                      onChanged: (value) => _filterItems(value, cp),
+                      onChanged: (value) => cp.filterItems(value),
                       decoration: InputDecoration(
                         labelText: "Search",
                         labelStyle: const TextStyle(
@@ -95,13 +79,16 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
                     ),
                   ),
                 ),
-                _filteredItems.isNotEmpty
-                    ? ListView.builder(
-                        shrinkWrap: true,
+                Consumer<ComponentProvider>(
+                  builder: (context, provider, child) {
+                    final items = provider.filtered;
+                    if (items.isEmpty) {
+                      return ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
-                        itemCount: _filteredItems.length,
+                        shrinkWrap: true,
+                        itemCount: comp.length,
                         itemBuilder: (context, index) {
-                          final item = cp.components[index];
+                          final item = comp[index];
                           return Row(
                             children: [
                               Padding(
@@ -214,10 +201,127 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
                             ],
                           );
                         },
-                      )
-                    : Center(
-                        child: CostumText(data: "Data tidak Ada"),
-                      ),
+                      );
+                    }
+
+                    return ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final item = items[index];
+                        return Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 6, 8, 8),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: contentBg,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Flexible(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(12),
+                                            bottomLeft: Radius.circular(12)),
+                                        child: Image.network(
+                                          "https://rjkgsarcxukfiomccvrq.supabase.co/storage/v1/object/public/profile/${item.picUrl}",
+                                          // width: double.infinity,
+                                          fit: BoxFit.cover,
+                                          width: 70,
+                                          height: 70,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        width: 200,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            CostumText(
+                                              data: item.id,
+                                              size: 12,
+                                            ),
+                                            CostumText(
+                                              data: item.name,
+                                              size: 12,
+                                            ),
+                                            CostumText(
+                                              data: "Stok : ${item.stock}",
+                                              size: 12,
+                                              color: item.stock < 10
+                                                  ? Colors.red
+                                                  : const Color.fromARGB(
+                                                      255, 36, 36, 36),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                Container(
+                                  width: 70,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                      color: const Color.fromARGB(
+                                          255, 250, 249, 239),
+                                      border: Border.all(
+                                          color: const Color.fromARGB(
+                                              255, 231, 211, 33)),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  child: Icon(
+                                    Icons.edit,
+                                    color:
+                                        const Color.fromARGB(255, 255, 238, 7),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 4.0),
+                                  child: InkWell(
+                                    onTap: () =>
+                                        _showDeleteConfirmationDialog(context),
+                                    child: Container(
+                                      width: 70,
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                          color: const Color.fromARGB(
+                                              255, 250, 239, 239),
+                                          border: Border.all(
+                                              color: const Color.fromARGB(
+                                                  255, 226, 15, 0)),
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                      child: Icon(
+                                        Icons.delete,
+                                        color: const Color.fromARGB(
+                                            255, 255, 7, 7),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
               ],
             ),
           ),

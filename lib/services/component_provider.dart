@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:built_your_pc/main.dart';
 import 'package:built_your_pc/model/component_model.dart';
 import 'package:built_your_pc/model/cpu_model.dart';
@@ -11,11 +9,25 @@ import 'package:flutter/material.dart';
 
 class ComponentProvider with ChangeNotifier {
   List<ComponentModel> components = [];
+  List<ComponentModel> filtered = [];
 
   Future<void> addComponentModel(ComponentModel model) async {
     components.add(model);
     await supabase.from(model.tableType).insert(model.toMap());
     notifyListeners();
+  }
+
+  void filterItems(String query) {
+    if (query.isEmpty) {
+      filtered = components;
+    } else {
+      filtered = components
+          .where((item) => item.name
+              .toLowerCase()
+              .contains(query.toLowerCase())) // Case-insensitive search
+          .toList();
+    }
+    notifyListeners(); // Notify listeners about the change
   }
 
   Future<void> fetchComponents() async {
@@ -36,7 +48,6 @@ class ComponentProvider with ChangeNotifier {
         .map((e) => PSUModel.fromMap(e))
         .toList());
     components = tempList;
-    print(components.toString());
     notifyListeners();
   }
 
