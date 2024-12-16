@@ -1,5 +1,5 @@
 class LocationModel {
-  String locationId;
+  String id;
   String? locationName;
   String? streetName;
   String? rtNumber;
@@ -10,7 +10,7 @@ class LocationModel {
   String? userId;
 
   LocationModel({
-    required this.locationId,
+    required this.id,
     this.locationName,
     this.streetName,
     this.rtNumber,
@@ -23,7 +23,7 @@ class LocationModel {
 
   factory LocationModel.fromMap(Map<String, dynamic> map) {
     return LocationModel(
-      locationId: map['location_id'] as String,
+      id: map['location_id'] as String,
       locationName: map['location_name'] as String?,
       streetName: map['street_name'] as String?,
       rtNumber: map['rt_number'] as String?,
@@ -37,7 +37,7 @@ class LocationModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'location_id': locationId,
+      'location_id': id,
       'location_name': locationName,
       'street_name': streetName,
       'rt_number': rtNumber,
