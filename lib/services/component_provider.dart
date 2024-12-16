@@ -48,12 +48,15 @@ class ComponentProvider with ChangeNotifier {
         .map((e) => PSUModel.fromMap(e))
         .toList());
     components = tempList;
+    print(components);
     notifyListeners();
   }
 
   Future<void> updateComponent(ComponentModel model) async {
     int index = components.indexWhere((item) => item.id == model.id);
+    print("ae");
     if (index != -1) {
+      print("mauk");
       components[index] = model;
       await supabase
           .from(model.tableType)

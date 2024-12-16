@@ -72,8 +72,9 @@ class _AddCPUPageState extends State<AddCPUPage> {
     final tdp = _tdp.text;
     final price = _price.text;
     final graphics = _graphic.text;
-    final clock = _clock.text;
     final boost = _boost.text;
+    final clock = _clock.text;
+    final count = _count.text;
     final description = _desc.text;
     final stock = _stok.text;
     try {
@@ -86,17 +87,18 @@ class _AddCPUPageState extends State<AddCPUPage> {
       if (_file != null) {
         final id = generateSKU();
         final cpu = CPUModel(
-            id: id,
-            tdp: "${tdp}W",
-            graphics: graphics,
-            clock: "${clock}GHz",
-            count: clock,
-            boost: "${boost}GHz",
-            stock: int.parse(stock),
-            name: name,
-            description: description,
-            price: int.parse(price),
-            picUrl: url);
+          id: id,
+          tdp: "${tdp}W",
+          graphics: graphics,
+          clock: "${clock}GHz",
+          count: count,
+          boost: "${boost}GHz",
+          stock: int.parse(stock),
+          name: name,
+          description: description,
+          price: int.parse(price),
+          picUrl: url,
+        );
         await comps.addComponentModel(cpu);
       } else {
         _showSnackBar(context, "Perlu Gambar!");

@@ -23,7 +23,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
   @override
   Widget build(BuildContext context) {
     final pc = Provider.of<ComponentProvider>(context, listen: false);
-    pc.fetchComponents();
+    pc.components.sort((a, b) => a.stock.compareTo(b.stock));
+    final items = pc.components;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -54,8 +55,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: pc.components.length,
+                    itemCount: 3,
                     itemBuilder: (context, index) {
+                      final item = items[index];
                       return ContentContainer(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -66,9 +68,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(12),
                                     bottomLeft: Radius.circular(12)),
-                                child: Image.asset(
-                                  "assets/img/logo_app.png",
-                                  // width: double.infinity,
+                                child: Image.network(
+                                  "https://rjkgsarcxukfiomccvrq.supabase.co/storage/v1/object/public/profile/${item.picUrl}",
+                                  width: 70,
                                   height: 70,
                                 ),
                               ),
@@ -80,17 +82,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CostumText(
-                                    data: "CPU-AMD5-17404",
+                                    data: item.id,
                                     size: 12,
                                   ),
                                   CostumText(
-                                    data: "AMD Ryzen 5 5600G",
+                                    data: item.name,
                                     size: 12,
                                   ),
                                   CostumText(
-                                    data: "Stok : 10",
+                                    data: "Stok : ${item.stock}",
                                     size: 12,
-                                    color: 3 < 10
+                                    color: item.stock < 10
                                         ? Colors.red
                                         : const Color.fromARGB(255, 36, 36, 36),
                                   )
