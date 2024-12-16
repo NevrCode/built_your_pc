@@ -254,7 +254,7 @@ class _LoginPageState extends State<LoginPage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const IndexPage()));
+                                            const LoginPage()));
                               }
                             }
                           },

@@ -24,7 +24,7 @@ class AuthProvider with ChangeNotifier {
       data: {
         'displayName': name,
         'profile_picture': profilePic,
-        'roles': 'admin'
+        'roles': 'user'
       },
     );
     session = res.session;

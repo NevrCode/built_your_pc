@@ -34,7 +34,6 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
   @override
   Widget build(BuildContext context) {
     final cp = Provider.of<ComponentProvider>(context, listen: false);
-    final comp = cp.components;
     return Stack(
       children: [
         SingleChildScrollView(
@@ -43,6 +42,7 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
               Padding(
                 padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                 child: SizedBox(
+                  height: 40,
                   child: TextField(
                     style: const TextStyle(fontFamily: "Poppins-regular"),
                     controller: controller,
@@ -80,116 +80,111 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
               Consumer<ComponentProvider>(
                 builder: (context, provider, child) {
                   final items = provider.filtered;
-                  if (items.isEmpty) {
-                    return ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: comp.length,
-                      itemBuilder: (context, index) {
-                        final item = comp[index];
-                        return Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 5, 8, 8),
-                          child: Container(
-                            width: 360,
-                            decoration: BoxDecoration(
-                              color: contentBg,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                InkWell(
-                                  onTap: () => Navigator.of(context)
-                                      .push(MaterialPageRoute(
-                                    builder: (context) => item is CPUModel
-                                        ? EditCPUPage(cm: item)
-                                        : item is GPUModel
-                                            ? EditGPUPage(gm: item)
-                                            : item is RAMModel
-                                                ? EditRAMPage(rm: item)
-                                                : item is PSUModel
-                                                    ? EditPSUPage(pm: item)
-                                                    : EditSSDPage(
-                                                        sm: item is SSDModel
-                                                            ? item
-                                                            : null),
-                                  )),
-                                  child: Row(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(12),
-                                            bottomLeft: Radius.circular(12)),
-                                        child: Image.network(
-                                          "https://rjkgsarcxukfiomccvrq.supabase.co/storage/v1/object/public/profile/${item.picUrl}",
-                                          // width: double.infinity,
-                                          fit: BoxFit.cover,
-                                          width: 70,
-                                          height: 70,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            CostumText(
-                                              data: item.id,
-                                              size: 12,
-                                            ),
-                                            SizedBox(
-                                              width: 174,
-                                              child: CostumText(
-                                                data: item.name,
-                                                size: 12,
-                                              ),
-                                            ),
-                                            CostumText(
-                                              data: "Stok : ${item.stock}",
-                                              size: 12,
-                                              color: item.stock < 10
-                                                  ? Colors.red
-                                                  : const Color.fromARGB(
-                                                      255, 36, 36, 36),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                  return ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                      final item = items[index];
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 5, 8, 8),
+                        child: Container(
+                          width: 360,
+                          decoration: BoxDecoration(
+                            color: contentBg,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              InkWell(
+                                onTap: () => Navigator.of(context)
+                                    .push(MaterialPageRoute(
+                                  builder: (context) => item is CPUModel
+                                      ? EditCPUPage(cm: item)
+                                      : item is GPUModel
+                                          ? EditGPUPage(gm: item)
+                                          : item is RAMModel
+                                              ? EditRAMPage(rm: item)
+                                              : item is PSUModel
+                                                  ? EditPSUPage(pm: item)
+                                                  : EditSSDPage(
+                                                      sm: item is SSDModel
+                                                          ? item
+                                                          : null),
+                                )),
+                                child: Row(
                                   children: [
-                                    InkWell(
-                                      onTap: () =>
-                                          _showDeleteConfirmationDialog(
-                                              context, item),
-                                      child: Container(
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(12),
+                                          bottomLeft: Radius.circular(12)),
+                                      child: Image.network(
+                                        "https://rjkgsarcxukfiomccvrq.supabase.co/storage/v1/object/public/profile/${item.picUrl}",
+                                        // width: double.infinity,
+                                        fit: BoxFit.cover,
                                         width: 70,
                                         height: 70,
-                                        child: Center(
-                                          child: Icon(
-                                            Icons.delete,
-                                            color: const Color.fromARGB(
-                                                255, 255, 7, 7),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CostumText(
+                                            data: item.id,
+                                            size: 12,
                                           ),
-                                        ),
+                                          SizedBox(
+                                            width: 174,
+                                            child: CostumText(
+                                              data: item.name,
+                                              size: 12,
+                                            ),
+                                          ),
+                                          CostumText(
+                                            data: "Stok : ${item.stock}",
+                                            size: 12,
+                                            color: item.stock < 10
+                                                ? Colors.red
+                                                : const Color.fromARGB(
+                                                    255, 36, 36, 36),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    onTap: () => _showDeleteConfirmationDialog(
+                                        context, item),
+                                    child: Container(
+                                      width: 70,
+                                      height: 70,
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: const Color.fromARGB(
+                                              255, 255, 7, 7),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                        );
-                      },
-                    );
-                  }
-
-                  return CostumText(data: "data tidak ada");
+                        ),
+                      );
+                    },
+                  );
                 },
               ),
             ],

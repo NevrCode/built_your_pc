@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AdminHomePage extends StatefulWidget {
-  const AdminHomePage({super.key});
+  final PageController pageController;
+  const AdminHomePage({super.key, required this.pageController});
 
   @override
   State<AdminHomePage> createState() => _AdminHomePageState();
@@ -30,14 +31,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, '/adminKatalog'),
+            onTap: () => widget.pageController.jumpToPage(2),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(14, 5, 14, 5),
                   child: GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, '/adminKatalog'),
+                    onTap: () => widget.pageController.jumpTo(2),
                     child: CostumText(
                       data: "Katalog Barang >>",
                       size: 14,
@@ -58,8 +59,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                           Flexible(
                             child: ClipRRect(
                               borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(7),
-                                  bottomLeft: Radius.circular(7)),
+                                  topLeft: Radius.circular(12),
+                                  bottomLeft: Radius.circular(12)),
                               child: Image.network(
                                 "https://rjkgsarcxukfiomccvrq.supabase.co/storage/v1/object/public/profile/${item.picUrl}",
                                 width: 70,

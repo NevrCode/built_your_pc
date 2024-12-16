@@ -58,18 +58,18 @@ class _AdminIndexState extends State<AdminIndex> {
               children: [
                 Text(
                   _tabIndex == 0
-                      ? "Admin Panel"
+                      ? "Admin panel"
                       : _tabIndex == 1
                           ? "Users"
-                          : "Katalog Admin",
+                          : "Katalog",
                   style: const TextStyle(
-                      fontFamily: 'Poppins-regular', fontSize: 14, color: text),
+                      fontFamily: 'Poppins-regular', fontSize: 16, color: text),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 8,
                 ),
                 const Divider(
-                  color: Color.fromARGB(255, 248, 248, 248),
+                  color: Color.fromARGB(255, 209, 209, 209),
                   height: 0.2,
                   indent: 155,
                   endIndent: 155,
@@ -104,8 +104,10 @@ class _AdminIndexState extends State<AdminIndex> {
             tabIndex = v;
           });
         },
-        children: const [
-          AdminHomePage(),
+        children: [
+          AdminHomePage(
+            pageController: pageController,
+          ),
           TransactionPage(),
           AdminCatalogPage(),
         ],

@@ -9,8 +9,6 @@ import 'package:built_your_pc/util/app_color.dart';
 import 'package:built_your_pc/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
-import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../main.dart';
@@ -60,7 +58,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 19, 19, 19),
+      backgroundColor: bg,
       body: _isloading
           ? Center(
               child: CircularProgressIndicator(),
@@ -73,7 +71,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     margin: const EdgeInsets.fromLTRB(0, 50, 0, 70),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: const Color.fromARGB(255, 19, 19, 19),
+                      color: bg,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -95,31 +93,34 @@ class _RegisterPageState extends State<RegisterPage> {
                               decoration: InputDecoration(
                                 labelText: 'Name',
                                 labelStyle: const TextStyle(
-                                    color: Color.fromARGB(255, 224, 224, 224)),
+                                    color: Color.fromARGB(255, 58, 58, 58)),
                                 prefixIcon: const Icon(
                                   Icons.person,
-                                  color: Color.fromARGB(255, 221, 221, 221),
+                                  color: Color.fromARGB(255, 68, 68, 68),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 63, 63, 63)),
+                                      color:
+                                          Color.fromARGB(255, 177, 177, 177)),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 54, 46, 46)),
+                                      color:
+                                          Color.fromARGB(255, 148, 148, 148)),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 border: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 44, 44, 44)),
+                                      color:
+                                          Color.fromARGB(255, 185, 185, 185)),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 contentPadding:
                                     const EdgeInsets.symmetric(horizontal: 20),
                                 filled: true,
                                 fillColor:
-                                    const Color.fromARGB(255, 63, 63, 63),
+                                    const Color.fromARGB(255, 235, 234, 234),
                               ),
                             ),
                           ),
@@ -133,31 +134,34 @@ class _RegisterPageState extends State<RegisterPage> {
                               decoration: InputDecoration(
                                 labelText: 'E-mail',
                                 labelStyle: const TextStyle(
-                                    color: Color.fromARGB(255, 196, 196, 196)),
+                                    color: Color.fromARGB(255, 46, 46, 46)),
                                 prefixIcon: const Icon(
                                   Icons.email,
-                                  color: Color.fromARGB(255, 230, 230, 230),
+                                  color: Color.fromARGB(255, 65, 64, 64),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 53, 53, 53)),
+                                      color:
+                                          Color.fromARGB(255, 173, 173, 173)),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 39, 39, 39)),
+                                      color:
+                                          Color.fromARGB(255, 185, 184, 184)),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 border: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 46, 46, 46)),
+                                      color:
+                                          Color.fromARGB(255, 141, 139, 139)),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 contentPadding:
                                     const EdgeInsets.symmetric(horizontal: 20),
                                 filled: true,
                                 fillColor:
-                                    const Color.fromARGB(255, 63, 63, 63),
+                                    const Color.fromARGB(255, 240, 240, 240),
                               ),
                             ),
                           ),
@@ -170,19 +174,21 @@ class _RegisterPageState extends State<RegisterPage> {
                               decoration: InputDecoration(
                                 labelText: 'Password',
                                 labelStyle: const TextStyle(
-                                    color: Color.fromARGB(255, 221, 221, 221)),
+                                    color: Color.fromARGB(255, 63, 63, 63)),
                                 prefixIcon: const Icon(
                                   Icons.lock_rounded,
-                                  color: Color.fromARGB(255, 226, 226, 226),
+                                  color: Color.fromARGB(255, 82, 81, 81),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 56, 56, 56)),
+                                      color:
+                                          Color.fromARGB(255, 160, 159, 159)),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 53, 53, 53)),
+                                      color:
+                                          Color.fromARGB(255, 168, 168, 168)),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 border: OutlineInputBorder(
@@ -194,7 +200,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     const EdgeInsets.symmetric(horizontal: 20),
                                 filled: true,
                                 fillColor:
-                                    const Color.fromARGB(255, 63, 63, 63),
+                                    const Color.fromARGB(255, 241, 241, 241),
                               ),
                             ),
                           ),
@@ -205,7 +211,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         // Foto dalam bentuk lingkaran
                         CircleAvatar(
                           backgroundColor:
-                              const Color.fromARGB(255, 58, 58, 58),
+                              const Color.fromARGB(255, 226, 226, 226),
                           radius: 60,
                           backgroundImage: _userProfile != null
                               ? FileImage(_userProfile!)
@@ -221,27 +227,26 @@ class _RegisterPageState extends State<RegisterPage> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       const Icon(
-                                        Icons.picture_in_picture,
+                                        Icons.add,
                                         size: 40,
                                         color:
-                                            Color.fromARGB(255, 207, 207, 207),
+                                            Color.fromARGB(255, 148, 148, 148),
                                       ),
                                       const Text(
                                         'Upload Foto',
                                         style: TextStyle(
                                           color: Color.fromARGB(
-                                              255, 231, 231, 231),
+                                              255, 116, 116, 116),
                                         ),
                                       ),
                                     ],
                                   ),
                                 )
-                              : null, // Tampilkan icon person jika belum ada foto
+                              : null,
                         ),
                         SizedBox(
                           height: 20,
                         ),
-                        // Tombol Register
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: Column(
@@ -303,8 +308,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       const Size(150, 42)),
                                   padding: WidgetStateProperty.all(
                                       const EdgeInsets.fromLTRB(0, 0, 0, 0)),
-                                  backgroundColor: WidgetStateProperty.all(
-                                      const Color.fromARGB(255, 18, 18, 18)),
+                                  backgroundColor: WidgetStateProperty.all(bg),
                                   elevation: WidgetStateProperty.all(0),
                                 ),
                                 onPressed: () async {
@@ -319,7 +323,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   style: TextStyle(
                                     fontFamily: 'Poppins-Regular',
                                     fontSize: 15,
-                                    color: Color.fromARGB(255, 240, 240, 240),
+                                    color: Color.fromARGB(255, 48, 48, 48),
                                   ),
                                 ),
                               ),

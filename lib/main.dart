@@ -44,15 +44,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData.light(),
-      routes: {
-        '/': (context) => const IndexPage(),
-        '/login': (context) => const LoginPage(),
-        '/register': (context) => const RegisterPage(),
-        '/forgot': (context) => const Placeholder(),
-        '/admin': (context) => const AdminHomePage(),
-        '/adminKatalog': (context) => const AdminCatalogPage(),
-      },
-      initialRoute: '/login',
+      home: LoginPage(),
     );
   }
 }
