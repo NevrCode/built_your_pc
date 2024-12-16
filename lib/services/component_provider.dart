@@ -24,10 +24,10 @@ class ComponentProvider with ChangeNotifier {
       filtered = components
           .where((item) => item.name
               .toLowerCase()
-              .contains(query.toLowerCase())) // Case-insensitive search
+              .contains(query.toLowerCase())) 
           .toList();
     }
-    notifyListeners(); // Notify listeners about the change
+    notifyListeners(); 
   }
 
   Future<void> fetchComponents() async {
