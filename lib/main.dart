@@ -59,14 +59,14 @@ class _MyAppState extends State<MyApp> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final componentProvider =
           Provider.of<ComponentProvider>(context, listen: false);
+      final up = Provider.of<UserProvider>(context, listen: false);
 
       if (supabase.auth.currentUser != null) {
         Provider.of<OrderProvider>(context, listen: false).fetchOrders();
         Provider.of<LocationProvider>(context, listen: false).fetchData();
       }
       await componentProvider.fetchComponents();
-      print(componentProvider.filtered);
-      print("d " + componentProvider.components.toString());
+      await up.fetchUsers();
     });
   }
 

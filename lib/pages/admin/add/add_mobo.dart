@@ -90,7 +90,7 @@ class _AddMoboPageState extends State<AddMoboPage> {
         final cpu = MoboModel(
           id: id,
           maxMemory: maxMemory,
-          memory: memory,
+          memorySlots: int.parse(memory),
           color: color,
           formFactor: form,
           socket: socket,

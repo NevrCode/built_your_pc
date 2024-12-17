@@ -12,15 +12,15 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class AddCasePage extends StatefulWidget {
-  const AddCasePage({super.key, required this.cm});
+class EditCasePage extends StatefulWidget {
+  const EditCasePage({super.key, required this.cm});
   final CaseModel cm;
 
   @override
-  State<AddCasePage> createState() => _AddCasePageState();
+  State<EditCasePage> createState() => _EditCasePageState();
 }
 
-class _AddCasePageState extends State<AddCasePage> {
+class _EditCasePageState extends State<EditCasePage> {
   File? _file;
 
   bool isLoading = false;
@@ -72,7 +72,7 @@ class _AddCasePageState extends State<AddCasePage> {
     final price = _price.text != "" ? _price.text : widget.cm.price;
     final color = _color.text != "" ? _color.text : widget.cm.color;
     final external =
-        _external.text != "" ? _external.text : widget.cm.externalVolume;
+        _external.text != "" ? "${_external.text}L" : widget.cm.externalVolume;
     final side = _side.text != "" ? _side.text : widget.cm.sidePanel;
     final description = _desc.text != "" ? _desc.text : widget.cm.description;
     final stock = _stok.text != "" ? _stok.text : widget.cm.stock;
@@ -97,7 +97,7 @@ class _AddCasePageState extends State<AddCasePage> {
         color: color,
         type: type,
         sidePanel: side,
-        externalVolume: "${external}L",
+        externalVolume: external,
       );
       await comps.updateComponent(cpu);
     } finally {
@@ -148,31 +148,11 @@ class _AddCasePageState extends State<AddCasePage> {
                                   onTap: () => _pickProductPicture(),
                                   splashFactory: InkSplash.splashFactory,
                                   splashColor: Colors.white,
-                                  child: Container(
-                                    width: 120,
-                                    height: 120,
-                                    color: const Color.fromARGB(
-                                        255, 179, 179, 179),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        const Icon(
-                                          Icons.add,
-                                          size: 40,
-                                          color: Color.fromARGB(
-                                              255, 207, 207, 207),
-                                        ),
-                                        const CostumText(
-                                          data: 'Upload Foto',
-                                          size: 12,
-                                          color: Color.fromARGB(
-                                              255, 219, 218, 218),
-                                        ),
-                                      ],
-                                    ),
+                                  child: Image.network(
+                                    "https://rjkgsarcxukfiomccvrq.supabase.co/storage/v1/object/public/profile/${widget.cm.picUrl}",
+                                    width: 130,
+                                    height: 130,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                         ),
@@ -185,7 +165,7 @@ class _AddCasePageState extends State<AddCasePage> {
                     controller: _external,
                     radius: 7,
                     labelText: widget.cm.externalVolume,
-                    suffixText: "Ex-Volume",
+                    suffixText: "Ex-Volume  ",
                     inputType: TextInputType.number,
                   ),
                   CostumTextField(

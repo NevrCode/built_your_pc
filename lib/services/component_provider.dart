@@ -12,7 +12,11 @@ import 'package:flutter/material.dart';
 class ComponentProvider with ChangeNotifier {
   List<ComponentModel> components = [];
   List<ComponentModel> filtered = [];
+  String? _selectedCategory;
 
+  String _searchQuery = '';
+
+  get selectedCategory => _selectedCategory;
   Future<void> addComponentModel(ComponentModel model) async {
     components.add(model);
     await supabase.from(model.tableType).insert(model.toMap());
@@ -20,14 +24,25 @@ class ComponentProvider with ChangeNotifier {
   }
 
   void filterItems(String query) {
-    if (query.isEmpty) {
-      filtered = components;
-    } else {
-      filtered = components
-          .where(
-              (item) => item.name.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    }
+    _searchQuery = query.toLowerCase();
+    _applyFilters();
+  }
+
+  // Update category filter
+  void filterByCategory(String? category) {
+    _selectedCategory = category;
+    _applyFilters();
+  }
+
+  // Apply both filters
+  void _applyFilters() {
+    filtered = components.where((item) {
+      final matchesSearch = item.name.toLowerCase().contains(_searchQuery);
+      final matchesCategory =
+          _selectedCategory == null || item.tableType == _selectedCategory;
+      return matchesSearch && matchesCategory;
+    }).toList();
+
     notifyListeners();
   }
 
@@ -79,4 +94,21 @@ class ComponentProvider with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  // void filterByCategory(String? category) {
+  //   _selectedCategory = category;
+  //   _applyFilters();
+  // }
+
+  // // Apply both filters
+  // void _applyFilters() {
+  //   filtered = components.where((item) {
+  //     final matchesSearch = item.name.toLowerCase().contains(_searchQuery);
+  //     final matchesCategory =
+  //         _selectedCategory == null || item.type == _selectedCategory;
+  //     return matchesSearch && matchesCategory;
+  //   }).toList();
+
+  //   notifyListeners();
+  // }
 }
