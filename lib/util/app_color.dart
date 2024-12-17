@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const primary = Color.fromARGB(255, 41, 93, 189);
+const primary = Color.fromARGB(255, 78, 132, 233);
 const secondary = Colors.redAccent;
 const bg = Color.fromARGB(255, 248, 248, 253);
 const contentBg = Color.fromARGB(255, 255, 255, 255);

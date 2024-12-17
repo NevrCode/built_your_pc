@@ -43,6 +43,7 @@ class CostumText extends StatelessWidget {
   final Color color;
   final double size;
   final TextAlign? align;
+  final String? fontFamily;
 
   const CostumText({
     super.key,
@@ -50,6 +51,7 @@ class CostumText extends StatelessWidget {
     this.color = const Color.fromARGB(255, 36, 36, 36),
     this.size = 16,
     this.align,
+    this.fontFamily = "Poppins-regular",
   });
 
   @override
@@ -57,7 +59,7 @@ class CostumText extends StatelessWidget {
     return Text(
       data,
       style: TextStyle(
-        fontFamily: "Poppins-regular",
+        fontFamily: fontFamily,
         fontSize: size,
         color: color,
         overflow: TextOverflow.clip,
@@ -80,7 +82,7 @@ class MyButton extends StatelessWidget {
   const MyButton({
     super.key,
     required this.onTap,
-    this.overlay = const Color.fromARGB(73, 255, 235, 59),
+    this.overlay = const Color.fromARGB(72, 106, 158, 218),
     this.color = const Color.fromARGB(255, 102, 102, 102),
     this.height = 100,
     this.width = 100,
@@ -120,6 +122,7 @@ class CostumTextField extends StatelessWidget {
     this.padding = const EdgeInsets.fromLTRB(8, 8, 8, 8),
     this.inputType = TextInputType.text,
   });
+
   final EdgeInsets padding;
   final String? suffixText;
   final TextEditingController controller;
@@ -141,9 +144,10 @@ class CostumTextField extends StatelessWidget {
           decoration: InputDecoration(
             labelText: labelText,
             labelStyle: const TextStyle(
-                color: Color.fromARGB(255, 75, 75, 75),
-                fontFamily: 'Poppins-regular',
-                fontSize: 14),
+              color: Color.fromARGB(255, 75, 75, 75),
+              fontFamily: 'Poppins-regular',
+              fontSize: 14,
+            ),
             enabledBorder: OutlineInputBorder(
               borderSide:
                   const BorderSide(color: Color.fromARGB(255, 179, 177, 177)),

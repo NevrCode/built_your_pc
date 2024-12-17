@@ -1,6 +1,8 @@
+import 'package:built_your_pc/model/case_model.dart';
 import 'package:built_your_pc/model/component_model.dart';
 import 'package:built_your_pc/model/cpu_model.dart';
 import 'package:built_your_pc/model/gpu_model.dart';
+import 'package:built_your_pc/model/mobo_model.dart';
 import 'package:built_your_pc/model/psu_model.dart';
 import 'package:built_your_pc/model/ram_model.dart';
 import 'package:built_your_pc/model/ssd_model.dart';
@@ -23,11 +25,13 @@ class CostumPcPage extends StatefulWidget {
 
 class _CostumPcPageState extends State<CostumPcPage> {
   final List<Type> componentTypes = [
+    CaseModel,
+    MoboModel,
     CPUModel,
-    GPUModel,
-    RAMModel,
-    PSUModel,
     SSDModel,
+    RAMModel,
+    GPUModel,
+    PSUModel,
   ];
   int currentTypeIndex = 0;
   final Map<Type, ComponentModel> selectedComponents = {};
@@ -116,6 +120,11 @@ class _CostumPcPageState extends State<CostumPcPage> {
                 ),
               ),
             ),
+            CostumText(
+              data: "Double-tap to select",
+              size: 14,
+              color: const Color.fromARGB(255, 136, 136, 136),
+            ),
             GridView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -203,7 +212,7 @@ class _CostumPcPageState extends State<CostumPcPage> {
             ? Container(
                 decoration: BoxDecoration(
                     color: bg, borderRadius: BorderRadius.circular(12)),
-                height: 500,
+                height: 700,
                 child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
@@ -254,10 +263,11 @@ class _CostumPcPageState extends State<CostumPcPage> {
                               elevation: 0,
                               color: const Color.fromARGB(255, 28, 224, 10),
                               onTap: () {
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SummaryPage())); // Close the bottom sheet
+                                Navigator.of(context)
+                                    .pushReplacement(MaterialPageRoute(
+                                        builder: (context) => SummaryPage(
+                                              items: selectedComponents,
+                                            ))); // Close the bottom sheet
                               },
                               child: const CostumText(
                                 data: "Summary",

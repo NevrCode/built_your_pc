@@ -121,6 +121,7 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
                       onTap: () => cp.filterByCategory(isSelected ? null : e),
                       child: Container(
                         width: 65,
+                        height: 35,
                         decoration: BoxDecoration(
                           color: isSelected
                               ? Colors.blue.shade100

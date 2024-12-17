@@ -75,14 +75,14 @@ class _AddCasePageState extends State<AddCasePage> {
     final description = _desc.text;
     final stock = _stok.text;
     try {
+      final id = generateSKU();
       String fullPath = await supabase.storage.from('profile/product').upload(
-            "${DateTime.now().millisecondsSinceEpoch}.jpg",
+            "$id.jpg",
             _file!,
             fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
           );
       final url = fullPath.replaceFirst("profile", "");
       if (_file != null) {
-        final id = generateSKU();
         final cpu = CaseModel(
           id: id,
           name: name,

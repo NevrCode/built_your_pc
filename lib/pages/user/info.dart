@@ -1,6 +1,8 @@
+import 'package:built_your_pc/model/case_model.dart';
 import 'package:built_your_pc/model/component_model.dart';
 import 'package:built_your_pc/model/cpu_model.dart';
 import 'package:built_your_pc/model/gpu_model.dart';
+import 'package:built_your_pc/model/mobo_model.dart';
 import 'package:built_your_pc/model/psu_model.dart';
 import 'package:built_your_pc/model/ram_model.dart';
 import 'package:built_your_pc/model/ssd_model.dart';
@@ -190,6 +192,54 @@ class InfoPage extends StatelessWidget {
                               padding: EdgeInsets.fromLTRB(14, 6, 14, 8),
                               attribute: "Color",
                               value: (model as PSUModel).color),
+                        ],
+                      ),
+                    )
+                  ],
+                  if (model is CaseModel) ...[
+                    ContentContainer(
+                      child: Column(
+                        children: [
+                          DetailDescription(
+                              padding: EdgeInsets.fromLTRB(14, 6, 14, 8),
+                              attribute: "Side panel",
+                              value: (model as CaseModel).sidePanel),
+                          DetailDescription(
+                              padding: EdgeInsets.fromLTRB(14, 6, 14, 8),
+                              attribute: "External Volume",
+                              value: (model as CaseModel).externalVolume),
+                          DetailDescription(
+                              padding: EdgeInsets.fromLTRB(14, 6, 14, 8),
+                              attribute: "Type",
+                              value: (model as CaseModel).type),
+                          DetailDescription(
+                              padding: EdgeInsets.fromLTRB(14, 6, 14, 8),
+                              attribute: "Color",
+                              value: (model as CaseModel).color),
+                        ],
+                      ),
+                    )
+                  ],
+                  if (model is MoboModel) ...[
+                    ContentContainer(
+                      child: Column(
+                        children: [
+                          DetailDescription(
+                              padding: EdgeInsets.fromLTRB(14, 6, 14, 8),
+                              attribute: "Max memory",
+                              value: (model as MoboModel).maxMemory),
+                          DetailDescription(
+                              padding: EdgeInsets.fromLTRB(14, 6, 14, 8),
+                              attribute: "Form Factor",
+                              value: (model as MoboModel).formFactor),
+                          DetailDescription(
+                              padding: EdgeInsets.fromLTRB(14, 6, 14, 8),
+                              attribute: "Socket",
+                              value: (model as MoboModel).socket),
+                          DetailDescription(
+                              padding: EdgeInsets.fromLTRB(14, 6, 14, 8),
+                              attribute: "Color",
+                              value: (model as MoboModel).color),
                         ],
                       ),
                     )
