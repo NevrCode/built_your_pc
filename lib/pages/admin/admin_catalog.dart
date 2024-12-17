@@ -1,11 +1,15 @@
+import 'package:built_your_pc/model/case_model.dart';
 import 'package:built_your_pc/model/component_model.dart';
 import 'package:built_your_pc/model/cpu_model.dart';
 import 'package:built_your_pc/model/gpu_model.dart';
+import 'package:built_your_pc/model/mobo_model.dart';
 import 'package:built_your_pc/model/psu_model.dart';
 import 'package:built_your_pc/model/ram_model.dart';
 import 'package:built_your_pc/model/ssd_model.dart';
+import 'package:built_your_pc/pages/admin/edit/edit_case.dart';
 import 'package:built_your_pc/pages/admin/edit/edit_cpu.dart';
 import 'package:built_your_pc/pages/admin/edit/edit_gpu.dart';
+import 'package:built_your_pc/pages/admin/edit/edit_mobo.dart';
 import 'package:built_your_pc/pages/admin/edit/edit_psu.dart';
 import 'package:built_your_pc/pages/admin/edit/edit_ram.dart';
 import 'package:built_your_pc/pages/admin/edit/edit_ssd.dart';
@@ -109,12 +113,18 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
                                             ? EditGPUPage(gm: item)
                                             : item is RAMModel
                                                 ? EditRAMPage(rm: item)
-                                                : item is PSUModel
-                                                    ? EditPSUPage(pm: item)
-                                                    : EditSSDPage(
-                                                        sm: item is SSDModel
-                                                            ? item
-                                                            : null),
+                                                : item is CaseModel
+                                                    ? EditCasePage(cm: item)
+                                                    : item is MoboModel
+                                                        ? EditMoboPage(mm: item)
+                                                        : item is PSUModel
+                                                            ? EditPSUPage(
+                                                                pm: item)
+                                                            : EditSSDPage(
+                                                                sm: item
+                                                                        is SSDModel
+                                                                    ? item
+                                                                    : null),
                                   )),
                                   child: Row(
                                     children: [

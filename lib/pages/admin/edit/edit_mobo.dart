@@ -65,9 +65,10 @@ class _EditMoboPageState extends State<EditMoboPage> {
     });
     final comps = Provider.of<ComponentProvider>(context, listen: false);
     final name = _name.text != "" ? _name.text : item.name;
-    final memory = _memory.text != "" ? _memory.text : item.memory;
+    final memory = _memory.text != "" ? _memory.text : item.memorySlots;
     final price = _price.text != "" ? _price.text : item.price;
-    final maxMemory = _maxMemory.text != "" ? _maxMemory.text : item.maxMemory;
+    final maxMemory =
+        _maxMemory.text != "" ? "${_maxMemory.text}GB" : item.maxMemory;
     final form = _form.text != "" ? _form.text : item.formFactor;
     final color = _color.text != "" ? _color.text : item.color;
     final socket = _socket.text != "" ? _socket.text : item.socket;
@@ -87,7 +88,7 @@ class _EditMoboPageState extends State<EditMoboPage> {
       final cpu = MoboModel(
         id: widget.mm.id,
         maxMemory: maxMemory,
-        memory: memory,
+        memorySlots: int.parse(memory.toString()),
         color: color,
         formFactor: form,
         socket: socket,
@@ -97,7 +98,7 @@ class _EditMoboPageState extends State<EditMoboPage> {
         price: int.parse(price.toString()),
         picUrl: url,
       );
-      await comps.addComponentModel(cpu);
+      await comps.updateComponent(cpu);
     } catch (e) {
       _showSnackBar(context, "$e");
     } finally {
@@ -116,7 +117,7 @@ class _EditMoboPageState extends State<EditMoboPage> {
       appBar: AppBar(
         backgroundColor: bg,
         title: CostumText(
-          data: "Tambah MOBO",
+          data: "Edit ${widget.mm.name}",
           size: 14,
         ),
       ),
@@ -148,31 +149,11 @@ class _EditMoboPageState extends State<EditMoboPage> {
                                   onTap: () => _pickProductPicture(),
                                   splashFactory: InkSplash.splashFactory,
                                   splashColor: Colors.white,
-                                  child: Container(
-                                    width: 120,
-                                    height: 120,
-                                    color: const Color.fromARGB(
-                                        255, 179, 179, 179),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        const Icon(
-                                          Icons.add,
-                                          size: 40,
-                                          color: Color.fromARGB(
-                                              255, 207, 207, 207),
-                                        ),
-                                        const CostumText(
-                                          data: 'Upload Foto',
-                                          size: 12,
-                                          color: Color.fromARGB(
-                                              255, 219, 218, 218),
-                                        ),
-                                      ],
-                                    ),
+                                  child: Image.network(
+                                    "https://rjkgsarcxukfiomccvrq.supabase.co/storage/v1/object/public/profile/${widget.mm.picUrl}",
+                                    width: 130,
+                                    height: 130,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                         ),
@@ -180,17 +161,16 @@ class _EditMoboPageState extends State<EditMoboPage> {
                     ),
                   ),
                   CostumTextField(
-                      controller: _name, radius: 7, labelText: "nama Mobo"),
+                      controller: _name, radius: 7, labelText: widget.mm.name),
                   CostumTextField(
                     controller: _socket,
                     radius: 7,
-                    labelText: "Socket",
+                    labelText: widget.mm.socket,
                   ),
                   CostumTextField(
                     controller: _form,
                     radius: 7,
-                    labelText: "Form",
-                    inputType: TextInputType.number,
+                    labelText: widget.mm.formFactor,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -200,8 +180,8 @@ class _EditMoboPageState extends State<EditMoboPage> {
                         child: CostumTextField(
                           controller: _maxMemory,
                           radius: 7,
-                          labelText: "Max memory",
-                          suffixText: "GHz",
+                          labelText: widget.mm.maxMemory,
+                          suffixText: "max  ",
                           inputType: TextInputType.number,
                         ),
                       ),
@@ -210,8 +190,7 @@ class _EditMoboPageState extends State<EditMoboPage> {
                         child: CostumTextField(
                           controller: _color,
                           radius: 7,
-                          labelText: "Color",
-                          inputType: TextInputType.number,
+                          labelText: widget.mm.color,
                         ),
                       ),
                     ],
@@ -223,7 +202,8 @@ class _EditMoboPageState extends State<EditMoboPage> {
                         child: CostumTextField(
                           controller: _memory,
                           radius: 7,
-                          labelText: "Memory slot",
+                          labelText: widget.mm.memorySlots.toString(),
+                          suffixText: "Slot  ",
                           inputType: TextInputType.number,
                         ),
                       ),
@@ -232,7 +212,7 @@ class _EditMoboPageState extends State<EditMoboPage> {
                         child: CostumTextField(
                           controller: _stok,
                           radius: 7,
-                          labelText: "Stok",
+                          labelText: widget.mm.stock.toString(),
                           inputType: TextInputType.number,
                         ),
                       ),
@@ -246,7 +226,7 @@ class _EditMoboPageState extends State<EditMoboPage> {
                         child: CostumTextField(
                           controller: _price,
                           radius: 7,
-                          labelText: "Price",
+                          labelText: widget.mm.price.toString(),
                           inputType: TextInputType.number,
                         ),
                       ),
