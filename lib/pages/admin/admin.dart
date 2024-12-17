@@ -2,6 +2,7 @@ import 'package:built_your_pc/pages/admin/admin_add_menu.dart';
 import 'package:built_your_pc/pages/components/content_container.dart';
 import 'package:built_your_pc/pages/components/line_chart.dart';
 import 'package:built_your_pc/services/component_provider.dart';
+import 'package:built_your_pc/services/stripe_service.dart';
 import 'package:built_your_pc/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

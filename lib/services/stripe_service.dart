@@ -11,7 +11,7 @@ class StripeService {
   Future<void> makePayment(int amount) async {
     try {
       String? paymentIntentClientSecret = await _createPaymentIntent(
-          amount * 1000, "idr"); // stripe accepts cents
+          amount * 100, "idr"); // stripe accepts cents
 
       if (paymentIntentClientSecret == null) return;
 
