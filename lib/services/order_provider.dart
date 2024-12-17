@@ -7,7 +7,7 @@ class OrderProvider with ChangeNotifier {
 
   Future<void> fetchOrders() async {
     final res = await supabase.from("orders").select(
-        "*, pc_id(*, cpu(*), gpu(*), ram(*), ssd(*), psu(*), delivery_location(*))");
+        "*, pc_id(*, cpu(*), gpu(*), ram(*), ssd(*), psu(*), mobo(*), case(*), delivery_location(*))");
     orders = res.map((e) => OrderModel.fromMap(e)).toList();
     notifyListeners();
   }
@@ -22,11 +22,8 @@ class OrderProvider with ChangeNotifier {
     int index = orders.indexWhere((model) => model.id == order.id);
     if (index != -1) {
       orders[index].status = "Selesai";
-      
-      await supabase
-          .from("orders")
-          .update(order.toMap())
-          .eq("id", order.id);
+
+      await supabase.from("orders").update(order.toMap()).eq("id", order.id);
     }
     notifyListeners();
   }

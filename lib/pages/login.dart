@@ -7,6 +7,7 @@ import 'package:built_your_pc/pages/user/index.dart';
 import 'package:built_your_pc/services/auth_provider.dart';
 import 'package:built_your_pc/services/component_provider.dart';
 import 'package:built_your_pc/services/pref.dart';
+import 'package:built_your_pc/services/user_provider.dart';
 import 'package:built_your_pc/util/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -205,6 +206,16 @@ class _LoginPageState extends State<LoginPage> {
                               await auth.signInWithPass(email, password);
 
                               if (auth.user != null && mounted) {
+                                final cp = Provider.of<ComponentProvider>(
+                                    context,
+                                    listen: false);
+                                await cp.fetchComponents();
+                                if (auth.user!.userMetadata!['roles'] ==
+                                    "admin") {
+                                  final up = Provider.of<UserProvider>(context,
+                                      listen: false);
+                                  await up.fetchUsers();
+                                }
                                 // Provider.of<LocationProvider>(context,
                                 //         listen: false)
                                 //     .fetchData();
