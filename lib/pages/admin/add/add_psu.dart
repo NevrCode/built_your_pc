@@ -60,7 +60,7 @@ class _AddPSUPageState extends State<AddPSUPage> {
 
   String generateSKU() {
     final random = Random();
-    return "PSU-${_name.text.substring(0, 3)}-${(1000 + random.nextInt(90000)).toString()}";
+    return "PSU-${_name.text.substring(0, 3).toUpperCase()}-${(1000 + random.nextInt(90000)).toString()}";
   }
 
   Future<void> _addComponents(context) async {

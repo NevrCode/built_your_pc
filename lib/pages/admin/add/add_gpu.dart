@@ -59,7 +59,7 @@ class _AddGPUPageState extends State<AddGPUPage> {
 
   String generateSKU() {
     final random = Random();
-    return "GPU-${_name.text.substring(0, 3)}-${(1000 + random.nextInt(90000)).toString()}";
+    return "GPU-${_name.text.substring(0, 3).toUpperCase()}-${(1000 + random.nextInt(90000)).toString()}";
   }
 
   Future<void> _addComponents(context) async {

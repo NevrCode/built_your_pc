@@ -1,5 +1,7 @@
+import 'package:built_your_pc/pages/admin/add/add_case.dart';
 import 'package:built_your_pc/pages/admin/add/add_cpu.dart';
 import 'package:built_your_pc/pages/admin/add/add_gpu.dart';
+import 'package:built_your_pc/pages/admin/add/add_mobo.dart';
 import 'package:built_your_pc/pages/admin/add/add_psu.dart';
 import 'package:built_your_pc/pages/admin/add/add_ram.dart';
 import 'package:built_your_pc/pages/admin/add/add_ssd.dart';
@@ -16,7 +18,7 @@ class AdminAddMenuPage extends StatefulWidget {
 }
 
 class _AdminAddMenuPageState extends State<AdminAddMenuPage> {
-  List<String> types = ["cpu", "gpu", "ram", "ssd", "psu"];
+  List<String> types = ["cpu", "gpu", "ram", "ssd", "psu", "case", "mobo"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +47,11 @@ class _AdminAddMenuPageState extends State<AdminAddMenuPage> {
                                   ? AddRAMPage()
                                   : type == "ssd"
                                       ? AddSSDPage()
-                                      : AddPSUPage(),
+                                      : type == "mobo"
+                                          ? AddMoboPage()
+                                          : type == "case"
+                                              ? AddCasePage()
+                                              : AddPSUPage(),
                     ),
                   ),
                   child: ContentContainer(
