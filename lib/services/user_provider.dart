@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 class UserProvider with ChangeNotifier {
   List<UserModel> users = [];
   Future<void> fetchUsers() async {
-    final res = await supabase.from("user").select();
+    final res = await supabase.from("user").select().order("role");
     users = res.map((e) => UserModel.fromMap(e)).toList();
     notifyListeners();
   }
