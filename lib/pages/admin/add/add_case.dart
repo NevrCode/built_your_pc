@@ -1,30 +1,27 @@
 import 'dart:io';
-import 'dart:isolate';
 import 'dart:math';
 
 import 'package:built_your_pc/main.dart';
-import 'package:built_your_pc/model/component_model.dart';
-import 'package:built_your_pc/model/cpu_model.dart';
-import 'package:built_your_pc/model/ram_model.dart';
+import 'package:built_your_pc/model/case_model.dart';
+import 'package:built_your_pc/model/ssd_model.dart';
 import 'package:built_your_pc/services/component_provider.dart';
 import 'package:built_your_pc/util/app_color.dart';
 import 'package:built_your_pc/util/util.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class AddRAMPage extends StatefulWidget {
-  const AddRAMPage({super.key});
+class AddCasePage extends StatefulWidget {
+  const AddCasePage({super.key});
 
   @override
-  State<AddRAMPage> createState() => _AddRAMPageState();
+  State<AddCasePage> createState() => _AddCasePageState();
 }
 
-class _AddRAMPageState extends State<AddRAMPage> {
+class _AddCasePageState extends State<AddCasePage> {
   File? _file;
+
   bool isLoading = false;
   final _picker = ImagePicker();
 
@@ -33,11 +30,10 @@ class _AddRAMPageState extends State<AddRAMPage> {
   final _price = TextEditingController();
 
 // Ingetin Urutannya -------
-  final _capacity = TextEditingController();
-  final _speed = TextEditingController();
-  final _fwL = TextEditingController();
-  final _cas = TextEditingController();
+  final _type = TextEditingController();
   final _color = TextEditingController();
+  final _external = TextEditingController();
+  final _side = TextEditingController();
 
 // Ingetin Urutannya -------
   final _stok = TextEditingController();
@@ -49,20 +45,20 @@ class _AddRAMPageState extends State<AddRAMPage> {
   }
 
   void clearAll() {
+    _file = null;
     _name.clear();
-    _capacity.clear();
+    _side.clear();
     _price.clear();
     _color.clear();
-    _cas.clear();
-    _fwL.clear();
-    _speed.clear();
+    _type.clear();
+    _external.clear();
     _desc.clear();
     _stok.clear();
   }
 
   String generateSKU() {
     final random = Random();
-    return "RAM-${_name.text.substring(0, 3).toUpperCase()}-${(1000 + random.nextInt(90000)).toString()}";
+    return "CAS-${_name.text.substring(0, 3).toUpperCase()}-${(1000 + random.nextInt(90000)).toString()}";
   }
 
   Future<void> _addComponents(context) async {
@@ -71,12 +67,11 @@ class _AddRAMPageState extends State<AddRAMPage> {
     });
     final comps = Provider.of<ComponentProvider>(context, listen: false);
     final name = _name.text;
-    final capacity = _capacity.text;
+    final type = _type.text;
     final price = _price.text;
-    final cas = _cas.text;
     final color = _color.text;
-    final fwL = _fwL.text;
-    final speed = _speed.text;
+    final external = '${_external.text}L';
+    final side = _side.text;
     final description = _desc.text;
     final stock = _stok.text;
     try {
@@ -88,18 +83,17 @@ class _AddRAMPageState extends State<AddRAMPage> {
       final url = fullPath.replaceFirst("profile", "");
       if (_file != null) {
         final id = generateSKU();
-        final cpu = RAMModel(
+        final cpu = CaseModel(
           id: id,
           name: name,
           description: description,
           picUrl: url,
           price: int.parse(price),
           stock: int.parse(stock),
-          capacity: "$capacity GB",
-          speed: "${speed}GHz",
           color: color,
-          casLatency: "${cas}ns",
-          firstWordLatency: "${fwL}ns",
+          type: type,
+          sidePanel: side,
+          externalVolume: external,
         );
         await comps.addComponentModel(cpu);
       } else {
@@ -121,7 +115,7 @@ class _AddRAMPageState extends State<AddRAMPage> {
       appBar: AppBar(
         backgroundColor: bg,
         title: CostumText(
-          data: "Tambah RAM",
+          data: "Tambah Case",
           size: 14,
         ),
       ),
@@ -185,63 +179,32 @@ class _AddRAMPageState extends State<AddRAMPage> {
                     ),
                   ),
                   CostumTextField(
-                      controller: _name, radius: 7, labelText: "nama RAM"),
-                  Row(
-                    children: [
-                      Flexible(
-                        flex: 6,
-                        child: CostumTextField(
-                          controller: _capacity,
-                          radius: 7,
-                          labelText: "capacity",
-                          suffixText: "GB",
-                          inputType: TextInputType.number,
-                        ),
-                      ),
-                      Flexible(
-                          flex: 5,
-                          child: CostumTextField(
-                            controller: _cas,
-                            radius: 7,
-                            labelText: "latency",
-                            suffixText: "ns  ",
-                            inputType: TextInputType.number,
-                          ))
-                    ],
+                      controller: _name, radius: 7, labelText: "Nama Case"),
+                  CostumTextField(
+                    controller: _external,
+                    radius: 7,
+                    labelText: "External",
+                    suffixText: "L",
+                    inputType: TextInputType.number,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        flex: 6,
-                        child: CostumTextField(
-                          controller: _speed,
-                          radius: 7,
-                          labelText: "speed",
-                          suffixText: "GHz",
-                          inputType: TextInputType.number,
-                        ),
-                      ),
-                      Flexible(
-                        flex: 5,
-                        child: CostumTextField(
-                          controller: _color,
-                          radius: 7,
-                          labelText: "color",
-                        ),
-                      ),
-                    ],
+                  CostumTextField(
+                    controller: _color,
+                    radius: 7,
+                    labelText: "Color",
+                  ),
+                  CostumTextField(
+                    controller: _side,
+                    radius: 7,
+                    labelText: "Side panel",
                   ),
                   Row(
                     children: [
                       Flexible(
                         flex: 6,
                         child: CostumTextField(
-                          controller: _fwL,
+                          controller: _type,
                           radius: 7,
-                          labelText: "FW Latency",
-                          suffixText: "ns",
-                          inputType: TextInputType.number,
+                          labelText: "Type",
                         ),
                       ),
                       Flexible(
@@ -263,7 +226,7 @@ class _AddRAMPageState extends State<AddRAMPage> {
                         child: CostumTextField(
                           controller: _price,
                           radius: 7,
-                          labelText: "price",
+                          labelText: "Price",
                           inputType: TextInputType.number,
                         ),
                       ),
@@ -307,8 +270,8 @@ class _AddRAMPageState extends State<AddRAMPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: green,
         duration: Duration(seconds: 2),
+        backgroundColor: green,
       ),
     );
   }

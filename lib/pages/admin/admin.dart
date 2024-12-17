@@ -54,7 +54,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
     pc.components.sort((a, b) => a.stock.compareTo(b.stock));
 
     final items = pc.components;
-    print("admin" + pc.components.toString());
     if (isLoading) {
       return Center(
         child: CircularProgressIndicator(),
