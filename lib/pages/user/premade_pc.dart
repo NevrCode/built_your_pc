@@ -1,5 +1,4 @@
 import 'package:built_your_pc/pages/components/content_container.dart';
-import 'package:built_your_pc/pages/user/item_information.dart';
 import 'package:built_your_pc/util/app_color.dart';
 import 'package:built_your_pc/util/util.dart';
 import 'package:flutter/material.dart';
@@ -47,15 +46,15 @@ class _PremadePCPageState extends State<PremadePCPage> {
                   SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
               itemCount: 3,
               itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const ItemInformation())),
-                  child: ContentContainer(
-                      child: Padding(
-                    padding: const EdgeInsets.all(40),
-                    child: CostumText(data: "Kontem"),
-                  )),
-                );
+                // return GestureDetector(
+                //   onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                //       builder: (context) => const ItemInformation())),
+                //   child: ContentContainer(
+                //       child: Padding(
+                //     padding: const EdgeInsets.all(40),
+                //     child: CostumText(data: "Kontem"),
+                //   )),
+                // );
               },
             ),
           ],

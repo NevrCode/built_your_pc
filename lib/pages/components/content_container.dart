@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 
 class ContentContainer extends StatelessWidget {
   final Widget child;
-  const ContentContainer({super.key, required this.child});
+  final Color color;
+  const ContentContainer(
+      {super.key, required this.child, this.color = contentBg});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class ContentContainer extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           color: contentBg,
-          // border: Border.all(),
+          border: Border.all(color: color),
           borderRadius: BorderRadius.circular(12),
         ),
         child: child,
