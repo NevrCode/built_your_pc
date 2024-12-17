@@ -10,27 +10,25 @@ import 'package:flutter/material.dart';
 
 final List<String> imgList = [
   'assets/img/octofest.png',
-  'assets/img/pc-set.jpg',
-  'assets/img/pc-setup.jpg',
-  'assets/img/pcsetup2.jpg',
+  'assets/img/2.png',
+  'assets/img/3.png',
   'assets/img/10per.png',
 ];
 final List<Widget> imageSliders = imgList
     .map((item) => Container(
-          child: Container(
-            child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                child: Stack(
-                  children: <Widget>[
-                    Image.asset(item, fit: BoxFit.cover, width: 1000.0),
-                  ],
-                )),
-          ),
+          child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              child: Stack(
+                children: <Widget>[
+                  Image.asset(item, fit: BoxFit.cover, width: 1000.0),
+                ],
+              )),
         ))
     .toList();
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, required this.pageController});
+  final PageController pageController;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -71,8 +69,7 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.fromLTRB(8, 10, 8, 10),
                         child: CostumText(
                           data:
-                              "Welcome back, ${supabase.auth.currentUser!.userMetadata!['displayName']}" ??
-                                  "Welcome back, user",
+                              "Welcome back, ${supabase.auth.currentUser!.userMetadata!['displayName']}",
                           color: const Color.fromARGB(255, 65, 65, 65),
                           size: 14,
                         ),
@@ -87,8 +84,7 @@ class _HomePageState extends State<HomePage> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 6, 16, 8),
                 child: GestureDetector(
-                  onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => ProfilePage())),
+                  onTap: () => widget.pageController.jumpToPage(2),
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(

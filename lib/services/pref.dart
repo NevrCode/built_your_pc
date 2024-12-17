@@ -14,13 +14,14 @@ class PrefService {
   }
 
   Future<void> saveSession(String accessToken, String refreshToken,
-      String userId, String email) async {
+      String userId, String email, String admin) async {
     final prefs = await _getPreferences();
     await prefs.setString('access_token', accessToken);
     await prefs.setString('refresh_token', refreshToken);
     await prefs.setString('user_id', userId);
     await prefs.setString('email', email);
     await prefs.setBool('is_logged_in', true);
+    await prefs.setString("roles", admin);
   }
 
   Future<bool> isLoggedIn() async {
@@ -33,12 +34,14 @@ class PrefService {
     String? accessToken = prefs.getString('access_token');
     String? refreshToken = prefs.getString('refresh_token');
     String? userId = prefs.getString('user_id');
+    String? roles = prefs.getString('roles');
     String? email = prefs.getString('email');
     return {
       'access_token': accessToken,
       'refresh_token': refreshToken,
       'user_id': userId,
       'email': email,
+      'roles': roles,
     };
   }
 

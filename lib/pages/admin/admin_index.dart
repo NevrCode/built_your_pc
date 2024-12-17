@@ -115,6 +115,32 @@ class _AdminIndexState extends State<AdminIndex> {
       ),
     );
   }
+
+  Future<bool?> showExitConfirmationDialog(BuildContext context) {
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirm Exit"),
+          content: const Text("Are you sure you want to leave this page?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // Stay on the page
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true); // Exit the page
+              },
+              child: const Text("Exit"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 

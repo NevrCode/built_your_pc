@@ -239,11 +239,11 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 );
                                 PrefService().saveSession(
-                                  auth.session!.accessToken,
-                                  auth.session!.refreshToken!,
-                                  auth.user!.id,
-                                  auth.user!.email!,
-                                );
+                                    auth.session!.accessToken,
+                                    auth.session!.refreshToken!,
+                                    auth.user!.id,
+                                    auth.user!.email!,
+                                    auth.user!.userMetadata!['roles']);
                               }
                             } catch (e) {
                               Text(e.toString());
@@ -260,7 +260,7 @@ class _LoginPageState extends State<LoginPage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const LoginPage()));
+                                            const IndexPage()));
                               }
                             }
                           },
@@ -284,7 +284,7 @@ class _LoginPageState extends State<LoginPage> {
                             'Sign Up',
                             style: TextStyle(
                                 fontFamily: 'Poppins-regular',
-                                color: Color.fromARGB(255, 245, 245, 245)),
+                                color: Color.fromARGB(255, 44, 44, 44)),
                           ),
                         ),
 

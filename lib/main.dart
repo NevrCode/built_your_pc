@@ -1,13 +1,13 @@
-import 'package:built_your_pc/pages/admin/admin.dart';
-import 'package:built_your_pc/pages/admin/admin_catalog.dart';
+import 'package:built_your_pc/pages/admin/admin_index.dart';
 import 'package:built_your_pc/pages/login.dart';
-import 'package:built_your_pc/pages/register.dart';
 import 'package:built_your_pc/pages/user/index.dart';
 import 'package:built_your_pc/services/auth_provider.dart';
 import 'package:built_your_pc/services/component_provider.dart';
+import 'package:built_your_pc/services/location_provider.dart';
 import 'package:built_your_pc/services/order_provider.dart';
 import 'package:built_your_pc/services/pc_provider.dart';
 import 'package:built_your_pc/services/user_provider.dart';
+import 'package:built_your_pc/services/pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +32,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => PCProvider()),
         ChangeNotifierProvider(create: (context) => OrderProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => LocationProvider()),
       ],
       child: const MyApp(),
     ),
@@ -40,17 +41,61 @@ Future<void> main() async {
 
 final supabase = Supabase.instance.client;
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _isLoggedIn = false;
+  bool _isCheckingSession = true;
+  String? _roles = "user";
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final componentProvider =
+          Provider.of<ComponentProvider>(context, listen: false);
+
+      if (supabase.auth.currentUser != null) {
+        Provider.of<OrderProvider>(context, listen: false).fetchOrders();
+        Provider.of<LocationProvider>(context, listen: false).fetchData();
+      }
+      await componentProvider.fetchComponents();
+      print(componentProvider.filtered);
+      print("d " + componentProvider.components.toString());
+    });
+  }
+
+  Future<void> _checkLoginStatus() async {
+    bool isLoggedIn = await PrefService().isLoggedIn();
+    final userData = await PrefService().getUserData();
+    _roles = userData['roles'];
+    setState(() {
+      _isLoggedIn = isLoggedIn;
+      _isCheckingSession = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_isCheckingSession) {
+      return const MaterialApp(
+        home: Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        ),
+      );
+    }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData.light(),
-      home: LoginPage(),
+      home: _isLoggedIn
+          ? _roles == "admin"
+              ? const AdminIndex()
+              : const IndexPage()
+          : const LoginPage(),
     );
   }
 }

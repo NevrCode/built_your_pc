@@ -13,6 +13,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../main.dart';
 import '../services/auth_provider.dart';
+import '../services/pref.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -268,16 +269,13 @@ class _RegisterPageState extends State<RegisterPage> {
                                   });
                                   final user = await _register();
                                   if (user != null && mounted) {
-                                    // Provider.of<VehicleProvider>(context,
-                                    //         listen: false)
-                                    //     .fetchData();
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         duration: const Duration(seconds: 1),
                                         backgroundColor: const Color.fromARGB(
                                             255, 242, 255, 242),
                                         content: Text(
-                                          'Hi, ${user.userMetadata?['displayName']}. Selamat Berbelanja',
+                                          'Registrasi Berhasil! Silakan Login..',
                                           style: const TextStyle(
                                               fontFamily: 'Poppins-regular',
                                               fontSize: 14,
@@ -286,11 +284,13 @@ class _RegisterPageState extends State<RegisterPage> {
                                         ),
                                       ),
                                     );
+                                    await supabase.auth.signOut();
+                                    await PrefService().clearSession();
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const IndexPage()));
+                                                const LoginPage()));
                                   }
                                 },
                                 child: const Text(
