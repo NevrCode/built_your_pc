@@ -1,6 +1,8 @@
+import 'package:built_your_pc/model/case_model.dart';
 import 'package:built_your_pc/model/cpu_model.dart';
 import 'package:built_your_pc/model/gpu_model.dart';
 import 'package:built_your_pc/model/location_model.dart';
+import 'package:built_your_pc/model/mobo_model.dart';
 import 'package:built_your_pc/model/psu_model.dart';
 import 'package:built_your_pc/model/ram_model.dart';
 import 'package:built_your_pc/model/ssd_model.dart';
@@ -13,6 +15,8 @@ class PCModel {
   SSDModel ssd;
   RAMModel ram;
   PSUModel psu;
+  CaseModel pcCase;
+  MoboModel mobo;
   String userId;
   String notes;
   LocationModel deliveryLocation;
@@ -26,6 +30,8 @@ class PCModel {
     required this.ssd,
     required this.ram,
     required this.psu,
+    required this.pcCase,
+    required this.mobo,
     required this.userId,
     required this.notes,
     required this.deliveryLocation,
@@ -42,6 +48,8 @@ class PCModel {
       ram: RAMModel.fromMap(map['ram'] as Map<String, dynamic>),
       ssd: SSDModel.fromMap(map['ssd'] as Map<String, dynamic>),
       psu: PSUModel.fromMap(map['psu'] as Map<String, dynamic>),
+      pcCase: CaseModel.fromMap(map['case'] as Map<String, dynamic>),
+      mobo: MoboModel.fromMap(map['mobo'] as Map<String, dynamic>),
       userId: map['user_id'] as String,
       notes: map['notes'] as String,
       deliveryLocation: LocationModel.fromMap(

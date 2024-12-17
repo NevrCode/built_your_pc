@@ -1,7 +1,9 @@
 import 'package:built_your_pc/main.dart';
+import 'package:built_your_pc/model/case_model.dart';
 import 'package:built_your_pc/model/component_model.dart';
 import 'package:built_your_pc/model/cpu_model.dart';
 import 'package:built_your_pc/model/gpu_model.dart';
+import 'package:built_your_pc/model/mobo_model.dart';
 import 'package:built_your_pc/model/psu_model.dart';
 import 'package:built_your_pc/model/ram_model.dart';
 import 'package:built_your_pc/model/ssd_model.dart';
@@ -45,6 +47,12 @@ class ComponentProvider with ChangeNotifier {
         .toList());
     tempList.addAll((await supabase.from("psu").select())
         .map((e) => PSUModel.fromMap(e))
+        .toList());
+    tempList.addAll((await supabase.from("case").select())
+        .map((e) => CaseModel.fromMap(e))
+        .toList());
+    tempList.addAll((await supabase.from("mobo").select())
+        .map((e) => MoboModel.fromMap(e))
         .toList());
     components = tempList;
     filtered = tempList;
