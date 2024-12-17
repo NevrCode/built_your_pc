@@ -1,7 +1,11 @@
+import 'package:built_your_pc/main.dart';
 import 'package:built_your_pc/pages/admin/admin_add_menu.dart';
 import 'package:built_your_pc/pages/components/content_container.dart';
 import 'package:built_your_pc/pages/components/line_chart.dart';
+import 'package:built_your_pc/pages/login.dart';
 import 'package:built_your_pc/services/component_provider.dart';
+import 'package:built_your_pc/services/pref.dart';
+import 'package:built_your_pc/util/app_color.dart';
 import 'package:built_your_pc/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -156,6 +160,22 @@ class _AdminHomePageState extends State<AdminHomePage> {
           ContentContainer(
             child: LineChartSample2(),
           ),
+          Center(
+            child: MyButton(
+                elevation: 0,
+                color: bg,
+                height: 50,
+                onTap: () async {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const LoginPage()));
+                  await supabase.auth.signOut();
+                  await PrefService().clearSession();
+                },
+                child: CostumText(
+                  data: "Log out",
+                  color: Colors.red,
+                )),
+          )
         ],
       ),
     );
