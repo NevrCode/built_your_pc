@@ -13,6 +13,7 @@ import 'package:built_your_pc/pages/admin/edit/edit_mobo.dart';
 import 'package:built_your_pc/pages/admin/edit/edit_psu.dart';
 import 'package:built_your_pc/pages/admin/edit/edit_ram.dart';
 import 'package:built_your_pc/pages/admin/edit/edit_ssd.dart';
+import 'package:built_your_pc/pages/components/content_container.dart';
 import 'package:built_your_pc/services/component_provider.dart';
 import 'package:built_your_pc/util/util.dart';
 import 'package:flutter/material.dart';
@@ -28,11 +29,37 @@ class AdminCatalogPage extends StatefulWidget {
 }
 
 class _AdminCatalogPageState extends State<AdminCatalogPage> {
+  List<String> types = ["cpu", "gpu", "ram", "ssd", "psu", "case", "mobo"];
   String? query;
+  String? selectedCategory;
   final TextEditingController controller = TextEditingController();
   @override
   void initState() {
     super.initState();
+  }
+
+  void _navigateToEditPage(ComponentModel item) {
+    Widget editPage;
+    if (item is CPUModel) {
+      editPage = EditCPUPage(cm: item);
+    } else if (item is GPUModel) {
+      editPage = EditGPUPage(gm: item);
+    } else if (item is RAMModel) {
+      editPage = EditRAMPage(rm: item);
+    } else if (item is CaseModel) {
+      editPage = EditCasePage(cm: item);
+    } else if (item is MoboModel) {
+      editPage = EditMoboPage(mm: item);
+    } else if (item is PSUModel) {
+      editPage = EditPSUPage(pm: item);
+    } else if (item is SSDModel) {
+      editPage = EditSSDPage(sm: item);
+    } else {
+      return;
+    }
+
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => editPage));
   }
 
   @override
@@ -83,9 +110,37 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
                   ),
                 ),
               ),
+              Wrap(
+                alignment: WrapAlignment.start,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: types.map((e) {
+                  final isSelected = cp.selectedCategory == e;
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(4, 6, 4, 0),
+                    child: GestureDetector(
+                      onTap: () => cp.filterByCategory(isSelected ? null : e),
+                      child: Container(
+                        width: 65,
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? Colors.blue.shade100
+                              : Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Center(
+                          child: CostumText(data: e.toUpperCase(), size: 14),
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
               items.isEmpty
                   ? Center(
-                      child: CircularProgressIndicator(),
+                      child: CostumText(
+                          data: "No items found.",
+                          size: 14,
+                          color: Colors.grey),
                     )
                   : ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
@@ -105,27 +160,7 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 InkWell(
-                                  onTap: () => Navigator.of(context)
-                                      .push(MaterialPageRoute(
-                                    builder: (context) => item is CPUModel
-                                        ? EditCPUPage(cm: item)
-                                        : item is GPUModel
-                                            ? EditGPUPage(gm: item)
-                                            : item is RAMModel
-                                                ? EditRAMPage(rm: item)
-                                                : item is CaseModel
-                                                    ? EditCasePage(cm: item)
-                                                    : item is MoboModel
-                                                        ? EditMoboPage(mm: item)
-                                                        : item is PSUModel
-                                                            ? EditPSUPage(
-                                                                pm: item)
-                                                            : EditSSDPage(
-                                                                sm: item
-                                                                        is SSDModel
-                                                                    ? item
-                                                                    : null),
-                                  )),
+                                  onTap: () => _navigateToEditPage(item),
                                   child: Row(
                                     children: [
                                       ClipRRect(
