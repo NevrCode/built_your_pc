@@ -1,3 +1,4 @@
+import 'package:built_your_pc/pages/login.dart';
 import 'package:built_your_pc/services/auth_provider.dart';
 import 'package:built_your_pc/util/util.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,8 @@ class _ProfilePageState extends State<ProfilePage> {
           onTap: () {
             auth.signOut();
             if (mounted) {
-              Navigator.pushReplacementNamed(context, "/login");
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => LoginPage()));
             }
           },
           child: CostumText(data: "logout")),

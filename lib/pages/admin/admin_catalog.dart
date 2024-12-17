@@ -35,6 +35,7 @@ class _AdminCatalogPageState extends State<AdminCatalogPage> {
   Widget build(BuildContext context) {
     final cp = Provider.of<ComponentProvider>(context);
     final items = cp.filtered;
+
     return Stack(
       children: [
         SingleChildScrollView(

@@ -15,17 +15,43 @@ class AdminHomePage extends StatefulWidget {
 }
 
 class _AdminHomePageState extends State<AdminHomePage> {
+  bool isLoading = true;
   List<Color> gradientColors = [
     const Color.fromARGB(255, 2, 109, 46),
     const Color.fromARGB(255, 1, 202, 1),
   ];
 
-  bool showAvg = false;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadData();
+    });
+  }
+
+  Future<void> _loadData() async {
+    try {
+      final pc = Provider.of<ComponentProvider>(context, listen: false);
+      await pc.fetchComponents();
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final pc = Provider.of<ComponentProvider>(context, listen: false);
     pc.components.sort((a, b) => a.stock.compareTo(b.stock));
+
     final items = pc.components;
+    print("admin" + pc.components.toString());
+    if (isLoading) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +74,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: 3,
+                  itemCount: items.isEmpty ? 0 : 3,
                   itemBuilder: (context, index) {
                     final item = items[index];
                     return ContentContainer(

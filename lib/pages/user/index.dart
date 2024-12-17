@@ -61,13 +61,13 @@ class _IndexPageState extends State<IndexPage> {
                           ? "Transaction"
                           : "Profile",
                   style: const TextStyle(
-                      fontFamily: 'Poppins-bold', fontSize: 16, color: text),
+                      fontFamily: 'Poppins-regular', fontSize: 16, color: text),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 const Divider(
-                  color: Color.fromARGB(255, 248, 248, 248),
+                  color: Color.fromARGB(255, 216, 216, 216),
                   height: 0.2,
                   indent: 155,
                   endIndent: 155,
@@ -102,8 +102,10 @@ class _IndexPageState extends State<IndexPage> {
             tabIndex = v;
           });
         },
-        children: const [
-          HomePage(),
+        children: [
+          HomePage(
+            pageController: pageController,
+          ),
           TransactionPage(),
           ProfilePage(),
         ],
