@@ -4,8 +4,12 @@ import 'package:built_your_pc/pages/components/content_container.dart';
 import 'package:built_your_pc/pages/components/line_chart.dart';
 import 'package:built_your_pc/pages/login.dart';
 import 'package:built_your_pc/services/component_provider.dart';
+
+import 'package:built_your_pc/services/stripe_service.dart';
+
 import 'package:built_your_pc/services/pref.dart';
 import 'package:built_your_pc/util/app_color.dart';
+
 import 'package:built_your_pc/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

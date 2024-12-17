@@ -29,6 +29,13 @@ class AuthProvider with ChangeNotifier {
     );
     session = res.session;
     user = res.user;
+    await supabase.from("user").insert({
+      'id': res.user!.id,
+      'email': res.user!.email,
+      'role': 'user',
+      'displayname': name,
+      'profile_pic_url': profilePic
+    });
     notifyListeners();
     return user;
   }

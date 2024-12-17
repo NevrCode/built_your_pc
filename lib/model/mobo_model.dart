@@ -1,24 +1,24 @@
 import 'package:built_your_pc/model/component_model.dart';
 
 class MoboModel extends ComponentModel {
-  String maxMemory;
-  String memory;
-  String formFactor;
-  String socket;
-  String color;
+  final String socket;
+  final String formFactor;
+  final String maxMemory;
+  final int memorySlots;
+  final String color;
 
   MoboModel({
     required super.id,
     required super.name,
+    required super.price,
     required super.description,
     required super.picUrl,
-    required super.price,
     required super.stock,
-    required this.maxMemory,
     required this.socket,
     required this.formFactor,
+    required this.maxMemory,
+    required this.memorySlots,
     required this.color,
-    required this.memory,
     super.tableType = "mobo",
   });
 
@@ -26,30 +26,31 @@ class MoboModel extends ComponentModel {
     return MoboModel(
       id: map['id'] as String,
       name: map['name'] as String,
-      description: map['description'] as String,
-      picUrl: map['pic_url'] as String,
       price: map['price'] as int,
-      maxMemory: map['max_memory'] as String,
-      color: map['color'] as String,
       socket: map['socket'] as String,
       formFactor: map['form_factor'] as String,
-      memory: map['memory'] as String,
+      maxMemory: map['max_memory'] as String,
+      memorySlots: map['memory_slots'] as int,
+      color: map['color'] as String,
+      description: map['description'] as String,
+      picUrl: map['pic_url'] as String,
       stock: map['stock'] as int,
     );
   }
+
   @override
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'name': name,
+      'price': price,
       'description': description,
       'pic_url': picUrl,
-      'price': price,
-      'max_memory': maxMemory,
-      'color': color,
-      'form_factor': formFactor,
-      'memory': memory,
       'socket': socket,
+      'form_factor': formFactor,
+      'max_memory': maxMemory,
+      'memory_slots': memorySlots,
+      'color': color,
       'stock': stock,
     };
   }
