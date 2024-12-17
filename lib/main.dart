@@ -7,6 +7,7 @@ import 'package:built_your_pc/services/auth_provider.dart';
 import 'package:built_your_pc/services/component_provider.dart';
 import 'package:built_your_pc/services/order_provider.dart';
 import 'package:built_your_pc/services/pc_provider.dart';
+import 'package:built_your_pc/services/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +31,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => ComponentProvider()),
         ChangeNotifierProvider(create: (context) => PCProvider()),
         ChangeNotifierProvider(create: (context) => OrderProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
       ],
       child: const MyApp(),
     ),
