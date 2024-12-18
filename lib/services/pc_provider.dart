@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 class PCProvider with ChangeNotifier {
   List<PCModel> pcList = [];
   List<PCModel> filtered = [];
-
+  String price = '';
   Future<void> fetchPC() async {
     final res = await supabase
         .from("pc")
         .select("*, cpu(*), gpu(*), ram(*), ssd(*), psu(*), mobo(*), case(*)");
     pcList = res.map((e) => PCModel.fromMap(e)).toList();
-    print(pcList);
+
     notifyListeners();
   }
 
