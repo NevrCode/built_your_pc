@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:built_your_pc/model/case_model.dart';
 import 'package:built_your_pc/model/component_model.dart';
 import 'package:built_your_pc/model/cpu_model.dart';
@@ -33,6 +35,14 @@ class _CostumPcPageState extends State<CostumPcPage> {
     GPUModel,
     PSUModel,
   ];
+  final List<Type> requiredComponentTypes = [
+    CaseModel,
+    MoboModel,
+    CPUModel,
+    SSDModel,
+    RAMModel,
+    PSUModel,
+  ];
   int currentTypeIndex = 0;
   final Map<Type, ComponentModel> selectedComponents = {};
   double _total = 0;
@@ -48,6 +58,11 @@ class _CostumPcPageState extends State<CostumPcPage> {
       total += components.price;
     });
     _total = total;
+  }
+
+  bool areAllComponentsSelected(Map<Type, ComponentModel> selectedComponents) {
+    return requiredComponentTypes
+        .every((type) => selectedComponents.containsKey(type));
   }
 
   @override
@@ -66,9 +81,42 @@ class _CostumPcPageState extends State<CostumPcPage> {
         elevation: 1,
         backgroundColor: const Color.fromARGB(255, 248, 248, 248),
         onPressed: () {
-          setState(() {
-            currentTypeIndex = (currentTypeIndex + 1) % componentTypes.length;
-          });
+          // print("hi");
+          // log((currentTypeIndex % componentTypes.length).toString());
+          if (currentTypeIndex + 1 == componentTypes.length) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Confirmation'),
+                  content: Text('Are you satisfied with your selection?.'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        showSelectionsBottomSheet(context);
+                      },
+                      child: Text('Yes'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          currentTypeIndex =
+                              (currentTypeIndex + 1) % componentTypes.length;
+                          Navigator.of(context).pop();
+                        });
+                      },
+                      child: Text('Not yet'),
+                    ),
+                  ],
+                );
+              },
+            );
+          } else {
+            setState(() {
+              currentTypeIndex = (currentTypeIndex + 1) % componentTypes.length;
+            });
+          }
         },
         foregroundColor: Colors.white,
         label: SizedBox(
@@ -264,11 +312,35 @@ class _CostumPcPageState extends State<CostumPcPage> {
                               elevation: 0,
                               color: const Color.fromARGB(255, 28, 224, 10),
                               onTap: () {
-                                Navigator.of(context)
-                                    .pushReplacement(MaterialPageRoute(
-                                        builder: (context) => SummaryPage(
-                                              items: selectedComponents,
-                                            ))); // Close the bottom sheet
+                                if (areAllComponentsSelected(
+                                    selectedComponents)) {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) => SummaryPage(
+                                        items: selectedComponents,
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Warning'),
+                                        content: Text(
+                                            'Your selection is not complete'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text('Ok'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
                               },
                               child: const CostumText(
                                 data: "Summary",

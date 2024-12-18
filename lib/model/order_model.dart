@@ -8,18 +8,20 @@ class OrderModel {
   String status;
   final LocationModel loc;
   final String notes;
+  final DateTime createdAt;
 
-  OrderModel({
-    required this.loc,
-    required this.notes,
-    required this.id,
-    required this.pc,
-    required this.userId,
-    required this.status,
-  });
+  OrderModel(
+      {required this.loc,
+      required this.notes,
+      required this.id,
+      required this.pc,
+      required this.userId,
+      required this.status,
+      required this.createdAt});
 
   factory OrderModel.fromMap(Map<String, dynamic> map) {
     return OrderModel(
+
       id: map['id'] as String,
       loc: LocationModel.fromMap(map['locations'] as Map<String, dynamic>),
       notes: map["notes"] ?? '',
@@ -37,6 +39,9 @@ class OrderModel {
       'notes': notes,
       'locations': loc.id,
       'status': status,
+      'locations': loc,
+      'notes': notes,
+      'created_at': createdAt
     };
   }
 }
