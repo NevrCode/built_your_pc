@@ -17,15 +17,13 @@ final List<String> imgList = [
   'assets/img/10per.png',
 ];
 final List<Widget> imageSliders = imgList
-    .map((item) => Container(
-          child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
-              child: Stack(
-                children: <Widget>[
-                  Image.asset(item, fit: BoxFit.cover, width: 1000.0),
-                ],
-              )),
-        ))
+    .map((item) => ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        child: Stack(
+          children: <Widget>[
+            Image.asset(item, fit: BoxFit.cover, width: 1000.0),
+          ],
+        )))
     .toList();
 
 class HomePage extends StatefulWidget {
@@ -39,7 +37,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    final item = Provider.of<PCProvider>(context, listen: false).pcList;
+    final pc = Provider.of<PCProvider>(context, listen: false);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -216,19 +214,30 @@ class _HomePageState extends State<HomePage> {
             child: GestureDetector(
               onTap: () => Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => const PremadePCPage())),
-              child: SizedBox(
-                width: double.infinity,
-                height: 300,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        height: 200,
-                        child: ListView.builder(
+              child: FutureBuilder(
+                future: pc.fetchPC(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                        child: CircularProgressIndicator(
+                      color: const Color.fromARGB(255, 53, 48, 48),
+                    ));
+                  }
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error loading PCs'));
+                  }
+                  final item = pc.pcList;
+                  return item.isEmpty
+                      ? Center(child: Text('No PCs available'))
+                      : GridView.builder(
+                          physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: item.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.8,
+                          ),
+                          itemCount: 4,
                           itemBuilder: (context, index) {
                             final i = item[index];
                             return Padding(
@@ -248,21 +257,20 @@ class _HomePageState extends State<HomePage> {
                                           "https://rjkgsarcxukfiomccvrq.supabase.co/storage/v1/object/public/profile/${i.pcCase['pic_url']}",
                                           width: 120,
                                           height: 120,
-                                          // fit: BoxFit.fill,
                                         ),
                                       ),
                                     ),
-                                    CostumText(data: i.name)
+                                    CostumText(
+                                      data: i.name,
+                                      size: 14,
+                                    )
                                   ],
                                 ),
                               ),
                             );
                           },
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                        );
+                },
               ),
             ),
           ),

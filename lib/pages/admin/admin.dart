@@ -23,7 +23,6 @@ class AdminHomePage extends StatefulWidget {
 }
 
 class _AdminHomePageState extends State<AdminHomePage> {
-  bool isLoading = true;
   List<Color> gradientColors = [
     const Color.fromARGB(255, 2, 109, 46),
     const Color.fromARGB(255, 1, 202, 1),
@@ -32,33 +31,12 @@ class _AdminHomePageState extends State<AdminHomePage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadData();
-    });
-  }
-
-  Future<void> _loadData() async {
-    try {
-      final pc = Provider.of<ComponentProvider>(context, listen: false);
-      await pc.fetchComponents();
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     final pc = Provider.of<ComponentProvider>(context, listen: false);
-    pc.components.sort((a, b) => a.stock.compareTo(b.stock));
 
-    final items = pc.components;
-    if (isLoading) {
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-    }
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,56 +56,77 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     ),
                   ),
                 ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: items.isEmpty ? 0 : 3,
-                  itemBuilder: (context, index) {
-                    final item = items[index];
-                    return ContentContainer(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(12),
-                                  bottomLeft: Radius.circular(12)),
-                              child: Image.network(
-                                "https://rjkgsarcxukfiomccvrq.supabase.co/storage/v1/object/public/profile/${item.picUrl}",
-                                width: 70,
-                                height: 70,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CostumText(
-                                  data: item.id,
-                                  size: 12,
+                FutureBuilder(
+                  future: pc.fetchComponents(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                          child: CircularProgressIndicator(
+                        color: const Color.fromARGB(255, 90, 122, 226),
+                      ));
+                    }
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error loading PCs'));
+                    }
+                    final items = pc.filtered;
+                    items.sort((a, b) => a.stock.compareTo(b.stock));
+                    return items.isEmpty
+                        ? Center(child: Text('No PCs available'))
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: 3,
+                            itemBuilder: (context, index) {
+                              final item = items[index];
+                              return ContentContainer(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Flexible(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(12),
+                                            bottomLeft: Radius.circular(12)),
+                                        child: Image.network(
+                                          "https://rjkgsarcxukfiomccvrq.supabase.co/storage/v1/object/public/profile/${item.picUrl}",
+                                          width: 70,
+                                          height: 70,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CostumText(
+                                            data: item.id,
+                                            size: 12,
+                                          ),
+                                          CostumText(
+                                            data: item.name,
+                                            size: 12,
+                                          ),
+                                          CostumText(
+                                            data: "Stok : ${item.stock}",
+                                            size: 12,
+                                            color: item.stock < 10
+                                                ? Colors.red
+                                                : const Color.fromARGB(
+                                                    255, 36, 36, 36),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
                                 ),
-                                CostumText(
-                                  data: item.name,
-                                  size: 12,
-                                ),
-                                CostumText(
-                                  data: "Stok : ${item.stock}",
-                                  size: 12,
-                                  color: item.stock < 10
-                                      ? Colors.red
-                                      : const Color.fromARGB(255, 36, 36, 36),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    );
+                              );
+                            },
+                          );
                   },
                 ),
               ],

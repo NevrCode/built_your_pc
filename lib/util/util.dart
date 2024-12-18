@@ -5,11 +5,13 @@ class DetailDescription extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final String attribute;
   final String value;
+  final double size;
   const DetailDescription({
     super.key,
     required this.attribute,
     required this.value,
     this.padding,
+    this.size = 14,
   });
 
   @override
@@ -22,12 +24,14 @@ class DetailDescription extends StatelessWidget {
           Flexible(
             child: CostumText(
               data: attribute,
+              size: size,
               color: const Color.fromARGB(255, 0, 0, 0),
             ),
           ),
           Flexible(
             child: CostumText(
               data: value,
+              size: size,
               color: const Color.fromARGB(255, 0, 0, 0),
               align: TextAlign.end,
             ),
