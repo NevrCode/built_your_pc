@@ -1,9 +1,6 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:built_your_pc/main.dart';
-import 'package:built_your_pc/model/component_model.dart';
-import 'package:built_your_pc/model/cpu_model.dart';
 import 'package:built_your_pc/model/psu_model.dart';
 import 'package:built_your_pc/services/component_provider.dart';
 import 'package:built_your_pc/util/app_color.dart';

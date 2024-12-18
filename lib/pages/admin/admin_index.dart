@@ -1,9 +1,6 @@
 import 'package:built_your_pc/pages/admin/admin.dart';
 import 'package:built_your_pc/pages/admin/admin_catalog.dart';
 import 'package:built_your_pc/pages/admin/users_table.dart';
-import 'package:built_your_pc/pages/user/home.dart';
-import 'package:built_your_pc/pages/user/profile.dart';
-import 'package:built_your_pc/pages/user/transaction.dart';
 import 'package:built_your_pc/util/app_color.dart';
 import 'package:flutter/material.dart';
 

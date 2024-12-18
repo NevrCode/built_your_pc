@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:built_your_pc/main.dart';
 import 'package:built_your_pc/model/gpu_model.dart';

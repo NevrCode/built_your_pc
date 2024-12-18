@@ -1,5 +1,4 @@
 import 'package:built_your_pc/pages/user/saved_location.dart';
-import 'package:built_your_pc/util/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';

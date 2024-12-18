@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:built_your_pc/main.dart';
 import 'package:built_your_pc/model/order_model.dart';
 import 'package:built_your_pc/model/pc_model.dart';
@@ -59,7 +61,8 @@ class _PaymentPageState extends State<PaymentPage> {
                     notes: _note.text,
                     pc: widget.pc,
                     userId: supabase.auth.currentUser!.id,
-                    status: "Diproses"),
+                    status: "Diproses",
+                    createdAt: DateTime.now()),
               );
               setState(() {
                 isLoading = false;

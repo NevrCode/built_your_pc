@@ -1,4 +1,3 @@
-import 'package:built_your_pc/pages/components/content_container.dart';
 import 'package:built_your_pc/pages/user/pc_info.dart';
 import 'package:built_your_pc/util/app_color.dart';
 import 'package:built_your_pc/util/util.dart';

@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:built_your_pc/pages/admin/admin.dart';
 import 'package:built_your_pc/pages/admin/admin_index.dart';
 import 'package:built_your_pc/pages/register.dart';
 import 'package:built_your_pc/pages/user/index.dart';

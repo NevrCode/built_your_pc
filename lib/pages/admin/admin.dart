@@ -5,7 +5,6 @@ import 'package:built_your_pc/pages/components/line_chart.dart';
 import 'package:built_your_pc/pages/login.dart';
 import 'package:built_your_pc/services/component_provider.dart';
 
-import 'package:built_your_pc/services/stripe_service.dart';
 
 import 'package:built_your_pc/services/pref.dart';
 import 'package:built_your_pc/util/app_color.dart';

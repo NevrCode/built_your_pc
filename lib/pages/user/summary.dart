@@ -9,7 +9,6 @@ import 'package:built_your_pc/model/ram_model.dart';
 import 'package:built_your_pc/model/ssd_model.dart';
 import 'package:built_your_pc/pages/components/content_container.dart';
 import 'package:built_your_pc/pages/user/payment.dart';
-import 'package:built_your_pc/pages/user/transaction.dart';
 import 'package:built_your_pc/services/pc_provider.dart';
 import 'package:built_your_pc/util/app_color.dart';
 import 'package:built_your_pc/util/util.dart';

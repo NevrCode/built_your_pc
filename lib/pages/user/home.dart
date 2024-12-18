@@ -1,8 +1,6 @@
 import 'package:built_your_pc/main.dart';
-import 'package:built_your_pc/pages/components/content_container.dart';
 import 'package:built_your_pc/pages/user/costum_pc.dart';
 import 'package:built_your_pc/pages/user/premade_pc.dart';
-import 'package:built_your_pc/pages/user/profile.dart';
 import 'package:built_your_pc/services/pc_provider.dart';
 import 'package:built_your_pc/util/app_color.dart';
 import 'package:built_your_pc/util/util.dart';

@@ -1,10 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:built_your_pc/pages/login.dart';
-import 'package:built_your_pc/pages/user/index.dart';
 import 'package:built_your_pc/util/app_color.dart';
 import 'package:built_your_pc/util/util.dart';
 import 'package:flutter/material.dart';

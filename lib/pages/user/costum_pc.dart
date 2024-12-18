@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:built_your_pc/model/case_model.dart';
 import 'package:built_your_pc/model/component_model.dart';
@@ -352,7 +351,7 @@ class _CostumPcPageState extends State<CostumPcPage> {
                       ],
                     )),
               )
-            : Container(
+            : SizedBox(
                 height: 200,
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),

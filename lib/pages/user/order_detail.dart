@@ -1,6 +1,5 @@
 import 'package:built_your_pc/model/pc_model.dart';
 import 'package:built_your_pc/pages/components/content_container.dart';
-import 'package:built_your_pc/pages/user/payment.dart';
 import 'package:built_your_pc/util/app_color.dart';
 import 'package:built_your_pc/util/util.dart';
 import 'package:flutter/material.dart';

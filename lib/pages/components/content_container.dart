@@ -1,5 +1,4 @@
 import 'package:built_your_pc/util/app_color.dart';
-import 'package:built_your_pc/util/util.dart';
 import 'package:flutter/material.dart';
 
 class ContentContainer extends StatelessWidget {

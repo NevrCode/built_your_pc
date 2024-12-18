@@ -1,16 +1,12 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:built_your_pc/main.dart';
-import 'package:built_your_pc/model/component_model.dart';
-import 'package:built_your_pc/model/cpu_model.dart';
 import 'package:built_your_pc/model/ssd_model.dart';
 import 'package:built_your_pc/services/component_provider.dart';
 import 'package:built_your_pc/util/app_color.dart';
 import 'package:built_your_pc/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

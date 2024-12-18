@@ -1,9 +1,8 @@
-import 'package:built_your_pc/util/app_color.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample4 extends StatefulWidget {
-  BarChartSample4({super.key});
+  const BarChartSample4({super.key});
 
   final Color dark = const Color.fromARGB(255, 226, 226, 226);
   final Color normal = const Color.fromARGB(255, 25, 25, 97);

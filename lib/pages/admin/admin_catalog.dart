@@ -13,7 +13,6 @@ import 'package:built_your_pc/pages/admin/edit/edit_mobo.dart';
 import 'package:built_your_pc/pages/admin/edit/edit_psu.dart';
 import 'package:built_your_pc/pages/admin/edit/edit_ram.dart';
 import 'package:built_your_pc/pages/admin/edit/edit_ssd.dart';
-import 'package:built_your_pc/pages/components/content_container.dart';
 import 'package:built_your_pc/services/component_provider.dart';
 import 'package:built_your_pc/util/util.dart';
 import 'package:flutter/material.dart';
