@@ -3,10 +3,12 @@ import 'package:built_your_pc/pages/components/content_container.dart';
 import 'package:built_your_pc/pages/user/costum_pc.dart';
 import 'package:built_your_pc/pages/user/premade_pc.dart';
 import 'package:built_your_pc/pages/user/profile.dart';
+import 'package:built_your_pc/services/pc_provider.dart';
 import 'package:built_your_pc/util/app_color.dart';
 import 'package:built_your_pc/util/util.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 final List<String> imgList = [
   'assets/img/octofest.png',
@@ -37,54 +39,25 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CarouselSlider(
-          items: imageSliders,
-          options: CarouselOptions(
-            viewportFraction: 1,
-            autoPlay: true,
-            aspectRatio: 1.5,
-            enlargeCenterPage: true,
-          ),
-        ),
-        Row(
-          children: [
-            Flexible(
-              flex: 4,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 6, 16, 8),
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: contentBg,
-                    border: Border.all(color: homeBorder),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 10, 8, 10),
-                        child: CostumText(
-                          data:
-                              "Welcome back, ${supabase.auth.currentUser!.userMetadata!['displayName']}",
-                          color: const Color.fromARGB(255, 65, 65, 65),
-                          size: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+    final item = Provider.of<PCProvider>(context, listen: false).pcList;
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          CarouselSlider(
+            items: imageSliders,
+            options: CarouselOptions(
+              viewportFraction: 1,
+              autoPlay: true,
+              aspectRatio: 1.5,
+              enlargeCenterPage: true,
             ),
-            Flexible(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 6, 16, 8),
-                child: GestureDetector(
-                  onTap: () => widget.pageController.jumpToPage(2),
+          ),
+          Row(
+            children: [
+              Flexible(
+                flex: 4,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 6, 16, 8),
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -92,22 +65,51 @@ class _HomePageState extends State<HomePage> {
                       border: Border.all(color: homeBorder),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 10, 8, 10),
-                      child: Icon(
-                        Icons.person,
-                        color: const Color.fromARGB(255, 22, 22, 22),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 10, 8, 10),
+                          child: CostumText(
+                            data:
+                                "Welcome back, ${supabase.auth.currentUser!.userMetadata!['displayName']}",
+                            color: const Color.fromARGB(255, 65, 65, 65),
+                            size: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 6, 16, 8),
+                  child: GestureDetector(
+                    onTap: () => widget.pageController.jumpToPage(2),
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: contentBg,
+                        border: Border.all(color: homeBorder),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 10, 8, 10),
+                        child: Icon(
+                          Icons.person,
+                          color: const Color.fromARGB(255, 22, 22, 22),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-        Flexible(
-          flex: 1,
-          child: Padding(
+            ],
+          ),
+          Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -189,32 +191,83 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 16.0),
-          child: GestureDetector(
-            onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const PremadePCPage())),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                CostumText(
-                  data: "Recomended for Gaming >>",
-                  size: 14,
-                ),
-              ],
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0, right: 16),
+            child: GestureDetector(
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const PremadePCPage())),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CostumText(
+                    data: "Recomended for Gaming ",
+                    size: 14,
+                  ),
+                  CostumText(
+                    data: "More >>",
+                    size: 12,
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-        Flexible(
-            child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ContentContainer(
-              child: Column(
-            children: [],
-          )),
-        )),
-      ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 6, 8, 8),
+            child: GestureDetector(
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const PremadePCPage())),
+              child: SizedBox(
+                width: double.infinity,
+                height: 300,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        height: 200,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: item.length,
+                          itemBuilder: (context, index) {
+                            final i = item[index];
+                            return Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: contentBg,
+                                  border: Border.all(color: bg),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ClipRRect(
+                                        child: Image.network(
+                                          "https://rjkgsarcxukfiomccvrq.supabase.co/storage/v1/object/public/profile/${i.pcCase['pic_url']}",
+                                          width: 120,
+                                          height: 120,
+                                          // fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ),
+                                    CostumText(data: i.name)
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

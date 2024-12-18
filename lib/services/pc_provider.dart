@@ -7,9 +7,11 @@ class PCProvider with ChangeNotifier {
   List<PCModel> filtered = [];
 
   Future<void> fetchPC() async {
-    final res = await supabase.from("pc").select(
-        "*, cpu(*), gpu(*), ram(*), ssd(*), psu(*), mobo(*), case(*), delivery_location(*)");
+    final res = await supabase
+        .from("pc")
+        .select("*, cpu(*), gpu(*), ram(*), ssd(*), psu(*), mobo(*), case(*)");
     pcList = res.map((e) => PCModel.fromMap(e)).toList();
+    print(pcList);
     notifyListeners();
   }
 

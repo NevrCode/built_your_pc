@@ -1,4 +1,5 @@
 import 'package:built_your_pc/pages/components/content_container.dart';
+import 'package:built_your_pc/pages/user/pc_info.dart';
 import 'package:built_your_pc/util/app_color.dart';
 import 'package:built_your_pc/util/util.dart';
 import 'package:flutter/material.dart';
@@ -17,44 +18,32 @@ class _PremadePCPageState extends State<PremadePCPage> {
       backgroundColor: bg,
       appBar: AppBar(
         backgroundColor: appbarcolor,
-        automaticallyImplyLeading: false,
+        centerTitle: true,
         title: CostumText(
-          data: "We made something perfect for you",
-          color: Colors.white,
-          size: 14,
+          data: "For You Page",
+          color: const Color.fromARGB(255, 43, 43, 43),
+          size: 16,
         ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: CostumText(
-                    data: "For gaming needs >> ",
-                    size: 14,
-                  ),
-                ),
-              ],
-            ),
             GridView.builder(
               shrinkWrap: true,
               gridDelegate:
                   SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
               itemCount: 3,
               itemBuilder: (context, index) {
-                // return GestureDetector(
-                //   onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                //       builder: (context) => const ItemInformation())),
-                //   child: ContentContainer(
-                //       child: Padding(
-                //     padding: const EdgeInsets.all(40),
-                //     child: CostumText(data: "Kontem"),
-                //   )),
-                // );
+                return GestureDetector(
+                  // onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  //     builder: (context) => const PcInfo(model: ,))),
+                  child: ContentContainer(
+                      child: Padding(
+                    padding: const EdgeInsets.all(40),
+                    child: CostumText(data: "Kontem"),
+                  )),
+                );
               },
             ),
           ],

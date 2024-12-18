@@ -1,3 +1,4 @@
+import 'package:built_your_pc/model/location_model.dart';
 import 'package:built_your_pc/model/pc_model.dart';
 
 class OrderModel {
@@ -5,8 +6,12 @@ class OrderModel {
   final PCModel pc;
   final String userId;
   String status;
+  final LocationModel loc;
+  final String notes;
 
   OrderModel({
+    required this.loc,
+    required this.notes,
     required this.id,
     required this.pc,
     required this.userId,
@@ -16,6 +21,8 @@ class OrderModel {
   factory OrderModel.fromMap(Map<String, dynamic> map) {
     return OrderModel(
       id: map['id'] as String,
+      loc: LocationModel.fromMap(map['Locations'] as Map<String, dynamic>),
+      notes: map["notes"] ?? '',
       pc: PCModel.fromMap(map['pc_id'] as Map<String, dynamic>),
       userId: map['user_id'] as String,
       status: map['status'] as String,
