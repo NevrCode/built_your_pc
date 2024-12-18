@@ -20,6 +20,17 @@ class PCModel {
     required this.pcCase,
     required this.mobo,
   });
+  double get totalPrice {
+    return [
+      cpu['price'],
+      gpu['price'],
+      ssd['price'],
+      ram['price'],
+      psu['price'],
+      pcCase['price'],
+      mobo['price'],
+    ].fold(0.0, (sum, price) => sum + price);
+  }
 
   factory PCModel.fromMap(Map<String, dynamic> map) {
     return PCModel(

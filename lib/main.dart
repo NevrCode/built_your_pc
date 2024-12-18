@@ -61,11 +61,9 @@ class _MyAppState extends State<MyApp> {
           Provider.of<ComponentProvider>(context, listen: false);
       final up = Provider.of<UserProvider>(context, listen: false);
       final order = Provider.of<OrderProvider>(context, listen: false);
-      final pc = Provider.of<PCProvider>(context, listen: false);
       final loc = Provider.of<LocationProvider>(context, listen: false);
       if (supabase.auth.currentUser != null) {
         await order.fetchOrders();
-        await pc.fetchPC();
         await loc.fetchData();
       }
       await componentProvider.fetchComponents();
