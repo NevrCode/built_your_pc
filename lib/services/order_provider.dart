@@ -7,7 +7,7 @@ class OrderProvider with ChangeNotifier {
 
   Future<void> fetchOrders() async {
     final res = await supabase.from("orders").select(
-        "*, pc_id(*, cpu(*), gpu(*), ram(*), ssd(*), psu(*), mobo(*), case(*))");
+        "*, pc_id(*, cpu(*), gpu(*), ram(*), ssd(*), psu(*), mobo(*), case(*)), locations(*)");
     orders = res.map((e) => OrderModel.fromMap(e)).toList();
     notifyListeners();
   }

@@ -63,6 +63,7 @@ class _CostumPcPageState extends State<CostumPcPage> {
     return Scaffold(
       backgroundColor: bg,
       floatingActionButton: FloatingActionButton.extended(
+        elevation: 1,
         backgroundColor: const Color.fromARGB(255, 248, 248, 248),
         onPressed: () {
           setState(() {

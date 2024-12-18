@@ -37,16 +37,22 @@ class InfoPage extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            ClipRRect(
-              child: Image.network(
-                "https://rjkgsarcxukfiomccvrq.supabase.co/storage/v1/object/public/profile/${model.picUrl}",
-                fit: BoxFit.cover,
-                width: 200,
-                height: 200,
+            ContentContainer(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: ClipRRect(
+                  child: Image.network(
+                    "https://rjkgsarcxukfiomccvrq.supabase.co/storage/v1/object/public/profile/${model.picUrl}",
+                    // fit: BoxFit.cover,
+                    width: 200,
+                    height: 200,
+                  ),
+                ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(0.0),
               child: Column(
                 children: [
                   ContentContainer(

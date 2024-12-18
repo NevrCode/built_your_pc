@@ -107,7 +107,9 @@ class _IndexPageState extends State<IndexPage> {
             pageController: pageController,
           ),
           TransactionPage(),
-          ProfilePage(),
+          ProfilePage(
+            pageController: pageController,
+          ),
         ],
       ),
     );
