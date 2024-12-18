@@ -249,6 +249,7 @@ class _HomePageState extends State<HomePage> {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -260,9 +261,18 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       ),
                                     ),
-                                    CostumText(
-                                      data: i.name,
-                                      size: 14,
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
+                                      child: Divider(),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          14, 4, 14, 5),
+                                      child: CostumText(
+                                        data: i.name,
+                                        size: 14,
+                                      ),
                                     )
                                   ],
                                 ),

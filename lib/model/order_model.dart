@@ -21,13 +21,14 @@ class OrderModel {
 
   factory OrderModel.fromMap(Map<String, dynamic> map) {
     return OrderModel(
-        id: map['id'] as String,
-        loc: LocationModel.fromMap(map['Locations'] as Map<String, dynamic>),
-        notes: map["notes"] ?? '',
-        pc: PCModel.fromMap(map['pc_id'] as Map<String, dynamic>),
-        userId: map['user_id'] as String,
-        status: map['status'] as String,
-        createdAt: map['created_at'] as DateTime);
+
+      id: map['id'] as String,
+      loc: LocationModel.fromMap(map['locations'] as Map<String, dynamic>),
+      notes: map["notes"] ?? '',
+      pc: PCModel.fromMap(map['pc_id'] as Map<String, dynamic>),
+      userId: map['user_id'] as String,
+      status: map['status'] as String,
+    );
   }
 
   Map<String, dynamic> toMap() {
@@ -35,6 +36,8 @@ class OrderModel {
       'id': id,
       'pc_id': pc.id,
       'user_id': userId,
+      'notes': notes,
+      'locations': loc.id,
       'status': status,
       'locations': loc,
       'notes': notes,

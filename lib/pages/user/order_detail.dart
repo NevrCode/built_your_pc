@@ -6,9 +6,9 @@ import 'package:built_your_pc/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class PcInfo extends StatelessWidget {
+class OrderDetailPage extends StatelessWidget {
   final PCModel model;
-  const PcInfo({
+  const OrderDetailPage({
     super.key,
     required this.model,
   });
@@ -25,46 +25,46 @@ class PcInfo extends StatelessWidget {
         backgroundColor: bg,
         title: CostumText(data: model.name),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: const Color(0xff4bb543),
-        onPressed: () async {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => PaymentPage(pc: model),
-            ),
-          );
-        },
-        foregroundColor: const Color.fromARGB(255, 224, 224, 224),
-        label: SizedBox(
-          width: MediaQuery.of(context).size.width - 70,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: 200,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CostumText(
-                      fontFamily: 'Poppins-bold',
-                      data:
-                          formatCurrency((model.totalPrice).toInt().toString()),
-                      color: const Color.fromARGB(255, 255, 248, 248),
-                    ),
-                  ),
-                ),
-                CostumText(
-                  data: "Buy",
-                  fontFamily: "Poppins-bold",
-                  color: const Color.fromARGB(255, 235, 235, 235),
-                  size: 17,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   backgroundColor: const Color(0xff4bb543),
+      //   onPressed: () async {
+      //     Navigator.of(context).push(
+      //       MaterialPageRoute(
+      //         builder: (context) => PaymentPage(pc: model),
+      //       ),
+      //     );
+      //   },
+      //   foregroundColor: const Color.fromARGB(255, 224, 224, 224),
+      //   label: SizedBox(
+      //     width: MediaQuery.of(context).size.width - 70,
+      //     child: Padding(
+      //       padding: const EdgeInsets.all(8.0),
+      //       child: Row(
+      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //         children: [
+      //           SizedBox(
+      //             width: 200,
+      //             child: Padding(
+      //               padding: const EdgeInsets.all(8.0),
+      //               child: CostumText(
+      //                 fontFamily: 'Poppins-bold',
+      //                 data:
+      //                     formatCurrency((model.totalPrice).toInt().toString()),
+      //                 color: const Color.fromARGB(255, 255, 248, 248),
+      //               ),
+      //             ),
+      //           ),
+      //           CostumText(
+      //             data: "Buy",
+      //             fontFamily: "Poppins-bold",
+      //             color: const Color.fromARGB(255, 235, 235, 235),
+      //             size: 17,
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //   ),
+      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -90,18 +90,6 @@ class PcInfo extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ContentContainer(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        DetailDescription(
-                            padding: EdgeInsets.fromLTRB(14, 6, 14, 8),
-                            attribute: "Price",
-                            value: formatCurrency(
-                                (model.totalPrice).toInt().toString())),
-                      ],
-                    ),
-                  ),
                   // Padding(
                   //   padding: const EdgeInsets.only(left: 18.0),
                   //   child: CostumText(
@@ -116,12 +104,25 @@ class PcInfo extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 14.0, top: 10),
-                          child: CostumText(
-                            data: "CASE",
-                            fontFamily: "Poppins-semi",
-                            color: const Color.fromARGB(255, 255, 40, 40),
-                            size: 15,
+                          padding: const EdgeInsets.only(
+                              left: 14.0, top: 10, bottom: 5, right: 14),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CostumText(
+                                data: "CASE",
+                                fontFamily: "Poppins-semi",
+                                color: const Color.fromARGB(255, 255, 40, 40),
+                                size: 15,
+                              ),
+                              CostumText(
+                                data: formatCurrency(
+                                    model.pcCase['price'].toString()),
+                                fontFamily: "Poppins-semi",
+                                color: const Color.fromARGB(255, 255, 40, 40),
+                                size: 15,
+                              ),
+                            ],
                           ),
                         ),
                         DetailDescription(
@@ -150,12 +151,24 @@ class PcInfo extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
-                              left: 14.0, top: 10, bottom: 5),
-                          child: CostumText(
-                            data: "MOTHERBOARD",
-                            fontFamily: "Poppins-semi",
-                            color: const Color.fromARGB(255, 255, 40, 40),
-                            size: 15,
+                              left: 14.0, top: 10, bottom: 5, right: 14),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CostumText(
+                                data: "MOTHERBOARD",
+                                fontFamily: "Poppins-semi",
+                                color: const Color.fromARGB(255, 255, 40, 40),
+                                size: 15,
+                              ),
+                              CostumText(
+                                data: formatCurrency(
+                                    model.mobo['price'].toString()),
+                                fontFamily: "Poppins-semi",
+                                color: const Color.fromARGB(255, 255, 40, 40),
+                                size: 15,
+                              ),
+                            ],
                           ),
                         ),
                         DetailDescription(
@@ -184,12 +197,24 @@ class PcInfo extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
-                              left: 14.0, top: 10, bottom: 5),
-                          child: CostumText(
-                            data: "CPU",
-                            fontFamily: "Poppins-semi",
-                            color: const Color.fromARGB(255, 255, 40, 40),
-                            size: 15,
+                              left: 14.0, top: 10, bottom: 5, right: 14),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CostumText(
+                                data: "CPU",
+                                fontFamily: "Poppins-semi",
+                                color: const Color.fromARGB(255, 255, 40, 40),
+                                size: 15,
+                              ),
+                              CostumText(
+                                data: formatCurrency(
+                                    model.cpu['price'].toString()),
+                                fontFamily: "Poppins-semi",
+                                color: const Color.fromARGB(255, 255, 40, 40),
+                                size: 15,
+                              ),
+                            ],
                           ),
                         ),
                         DetailDescription(
@@ -222,12 +247,24 @@ class PcInfo extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
-                              left: 14.0, top: 10, bottom: 5),
-                          child: CostumText(
-                            data: "GPU",
-                            fontFamily: "Poppins-semi",
-                            color: const Color.fromARGB(255, 255, 40, 40),
-                            size: 15,
+                              left: 14.0, top: 10, bottom: 5, right: 14),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CostumText(
+                                data: "GPU",
+                                fontFamily: "Poppins-semi",
+                                color: const Color.fromARGB(255, 255, 40, 40),
+                                size: 15,
+                              ),
+                              CostumText(
+                                data: formatCurrency(
+                                    model.gpu['price'].toString()),
+                                fontFamily: "Poppins-semi",
+                                color: const Color.fromARGB(255, 255, 40, 40),
+                                size: 15,
+                              ),
+                            ],
                           ),
                         ),
                         DetailDescription(
@@ -260,12 +297,24 @@ class PcInfo extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
-                              left: 14.0, top: 10, bottom: 5),
-                          child: CostumText(
-                            data: "SSD",
-                            fontFamily: "Poppins-semi",
-                            color: const Color.fromARGB(255, 255, 40, 40),
-                            size: 15,
+                              left: 14.0, top: 10, bottom: 5, right: 14),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CostumText(
+                                data: "SSD",
+                                fontFamily: "Poppins-semi",
+                                color: const Color.fromARGB(255, 255, 40, 40),
+                                size: 15,
+                              ),
+                              CostumText(
+                                data: formatCurrency(
+                                    model.ssd['price'].toString()),
+                                fontFamily: "Poppins-semi",
+                                color: const Color.fromARGB(255, 255, 40, 40),
+                                size: 15,
+                              ),
+                            ],
                           ),
                         ),
                         DetailDescription(
@@ -294,12 +343,24 @@ class PcInfo extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
-                              left: 14.0, top: 10, bottom: 5),
-                          child: CostumText(
-                            data: "RAM",
-                            fontFamily: "Poppins-semi",
-                            color: const Color.fromARGB(255, 255, 40, 40),
-                            size: 15,
+                              left: 14.0, top: 10, bottom: 5, right: 14),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CostumText(
+                                data: "RAM",
+                                fontFamily: "Poppins-semi",
+                                color: const Color.fromARGB(255, 255, 40, 40),
+                                size: 15,
+                              ),
+                              CostumText(
+                                data: formatCurrency(
+                                    model.ram['price'].toString()),
+                                fontFamily: "Poppins-semi",
+                                color: const Color.fromARGB(255, 255, 40, 40),
+                                size: 15,
+                              ),
+                            ],
                           ),
                         ),
                         DetailDescription(
@@ -332,12 +393,24 @@ class PcInfo extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
-                              left: 14.0, top: 10, bottom: 5),
-                          child: CostumText(
-                            data: "PSU",
-                            fontFamily: "Poppins-semi",
-                            color: const Color.fromARGB(255, 255, 40, 40),
-                            size: 15,
+                              left: 14.0, top: 10, bottom: 5, right: 14),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CostumText(
+                                data: "PSU",
+                                fontFamily: "Poppins-semi",
+                                color: const Color.fromARGB(255, 255, 40, 40),
+                                size: 15,
+                              ),
+                              CostumText(
+                                data: formatCurrency(
+                                    model.psu['price'].toString()),
+                                fontFamily: "Poppins-semi",
+                                color: const Color.fromARGB(255, 255, 40, 40),
+                                size: 15,
+                              ),
+                            ],
                           ),
                         ),
                         DetailDescription(
@@ -360,6 +433,39 @@ class PcInfo extends StatelessWidget {
                             padding: EdgeInsets.fromLTRB(14, 6, 14, 8),
                             attribute: "Color",
                             value: model.psu['color']),
+                      ],
+                    ),
+                  ),
+                  ContentContainer(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: CostumText(
+                                  data: "Price",
+                                  fontFamily: 'Poppins-Semi',
+                                  size: 14,
+                                  color: const Color.fromARGB(255, 0, 0, 0),
+                                ),
+                              ),
+                              Flexible(
+                                child: CostumText(
+                                  fontFamily: 'Poppins-semi',
+                                  data: formatCurrency(
+                                      (model.totalPrice).toInt().toString()),
+                                  size: 13,
+                                  color: const Color.fromARGB(255, 0, 0, 0),
+                                  align: TextAlign.end,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),

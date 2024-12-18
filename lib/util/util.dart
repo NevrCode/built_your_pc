@@ -24,6 +24,7 @@ class DetailDescription extends StatelessWidget {
           Flexible(
             child: CostumText(
               data: attribute,
+              fontFamily: 'Poppins-Semi',
               size: size,
               color: const Color.fromARGB(255, 0, 0, 0),
             ),
@@ -125,9 +126,11 @@ class CostumTextField extends StatelessWidget {
     required this.labelText,
     this.padding = const EdgeInsets.fromLTRB(8, 8, 8, 8),
     this.inputType = TextInputType.text,
+    this.fillColor = const Color.fromARGB(255, 247, 247, 247),
   });
 
   final EdgeInsets padding;
+  final Color fillColor;
   final String? suffixText;
   final TextEditingController controller;
   final Color borderColor;

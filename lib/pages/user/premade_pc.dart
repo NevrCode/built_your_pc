@@ -36,10 +36,18 @@ class _PremadePCPageState extends State<PremadePCPage> {
             future: pc.fetchPC(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                    child: CircularProgressIndicator(
-                  color: const Color.fromARGB(255, 53, 48, 48),
-                ));
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height - 300,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                          child: CircularProgressIndicator(
+                        color: const Color.fromARGB(255, 70, 123, 223),
+                      )),
+                    ],
+                  ),
+                );
               }
               if (snapshot.hasError) {
                 return Center(child: Text('Error loading PCs'));
@@ -52,7 +60,7 @@ class _PremadePCPageState extends State<PremadePCPage> {
                       shrinkWrap: true,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        childAspectRatio: 0.7,
+                        childAspectRatio: 0.8,
                       ),
                       itemCount: item.length,
                       itemBuilder: (context, index) {
@@ -79,8 +87,8 @@ class _PremadePCPageState extends State<PremadePCPage> {
                                       child: ClipRRect(
                                         child: Image.network(
                                           "https://rjkgsarcxukfiomccvrq.supabase.co/storage/v1/object/public/profile/${i.pcCase['pic_url']}",
-                                          width: 120,
-                                          height: 120,
+                                          width: 102,
+                                          height: 102,
                                         ),
                                       ),
                                     ),
