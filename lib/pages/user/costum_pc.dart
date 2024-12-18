@@ -35,6 +35,14 @@ class _CostumPcPageState extends State<CostumPcPage> {
     GPUModel,
     PSUModel,
   ];
+  final List<Type> requiredComponentTypes = [
+    CaseModel,
+    MoboModel,
+    CPUModel,
+    SSDModel,
+    RAMModel,
+    PSUModel,
+  ];
   int currentTypeIndex = 0;
   final Map<Type, ComponentModel> selectedComponents = {};
   double _total = 0;
@@ -50,6 +58,11 @@ class _CostumPcPageState extends State<CostumPcPage> {
       total += components.price;
     });
     _total = total;
+  }
+
+  bool areAllComponentsSelected(Map<Type, ComponentModel> selectedComponents) {
+    return requiredComponentTypes
+        .every((type) => selectedComponents.containsKey(type));
   }
 
   @override
@@ -298,11 +311,35 @@ class _CostumPcPageState extends State<CostumPcPage> {
                               elevation: 0,
                               color: const Color.fromARGB(255, 28, 224, 10),
                               onTap: () {
-                                Navigator.of(context)
-                                    .pushReplacement(MaterialPageRoute(
-                                        builder: (context) => SummaryPage(
-                                              items: selectedComponents,
-                                            ))); // Close the bottom sheet
+                                if (areAllComponentsSelected(
+                                    selectedComponents)) {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) => SummaryPage(
+                                        items: selectedComponents,
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Warning'),
+                                        content: Text(
+                                            'Your selection is not complete'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text('Ok'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
                               },
                               child: const CostumText(
                                 data: "Summary",
