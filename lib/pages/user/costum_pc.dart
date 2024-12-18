@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:built_your_pc/model/case_model.dart';
 import 'package:built_your_pc/model/component_model.dart';
 import 'package:built_your_pc/model/cpu_model.dart';
@@ -65,9 +67,42 @@ class _CostumPcPageState extends State<CostumPcPage> {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: const Color.fromARGB(255, 248, 248, 248),
         onPressed: () {
-          setState(() {
-            currentTypeIndex = (currentTypeIndex + 1) % componentTypes.length;
-          });
+          // print("hi");
+          // log((currentTypeIndex % componentTypes.length).toString());
+          if (currentTypeIndex + 1 == componentTypes.length) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Confirmation'),
+                  content: Text('Are you satisfied with your selection?.'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        showSelectionsBottomSheet(context);
+                      },
+                      child: Text('Yes'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          currentTypeIndex =
+                              (currentTypeIndex + 1) % componentTypes.length;
+                          Navigator.of(context).pop();
+                        });
+                      },
+                      child: Text('Not yet'),
+                    ),
+                  ],
+                );
+              },
+            );
+          } else {
+            setState(() {
+              currentTypeIndex = (currentTypeIndex + 1) % componentTypes.length;
+            });
+          }
         },
         foregroundColor: Colors.white,
         label: SizedBox(
